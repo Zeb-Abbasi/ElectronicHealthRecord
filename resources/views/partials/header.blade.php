@@ -1,7 +1,7 @@
 <header class="navbar navbar-expand-md navbar-light bg-light">
     <div class="container">
         <!-- Logo -->
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{{ route('homepage') }}">
             <img src="path/to/logo.png" alt="Logo" class="logo">
         </a>
 
@@ -13,16 +13,22 @@
         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
             <ul class="navbar-nav text-center">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link text-secondary" href="{{ route('homepage') }}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link text-secondary" href="{{ route('homepage') }}#our-features">Services</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Services</a>
+                    <a class="nav-link text-secondary" href="{{ route('homepage') }}#about-us">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link text-secondary" href="{{ route('homepage') }}#gallery">Gallery</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-secondary" href="{{ route('homepage') }}#logins">Logins</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-secondary" href="{{ route('homepage') }}#contact">Contact</a>
                 </li>
             </ul>
             <div class="d-flex align-items-center  justify-content-end d-block d-md-none">
