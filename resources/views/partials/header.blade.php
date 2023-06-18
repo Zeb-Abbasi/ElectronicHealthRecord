@@ -2,7 +2,7 @@
     <div class="container">
         <!-- Logo -->
         <a class="navbar-brand" href="{{ route('homepage') }}">
-            <img src="path/to/logo.png" alt="Logo" class="logo">
+            <h1 class="text-success">EHR</h1>
         </a>
 
         <!-- Collapsible Menu -->
@@ -32,13 +32,14 @@
                 </li>
             </ul>
             <div class="d-flex align-items-center  justify-content-end d-block d-md-none">
-                <button class="btn btn-success">Sign In</button>
+                <a href="{{ route('patient-login') }}" class="btn btn-success">Book an Appointment</a>
+
             </div>
         </div>
 
         <!-- Button -->
         <div class="d-flex align-items-center d-none d-md-block">
-            <button class="btn btn-success">Sign In</button>
+            <a href="{{ route('patient-login') }}" class="btn btn-success">Book an Appointment</a>
         </div>
     </div>
 </header>

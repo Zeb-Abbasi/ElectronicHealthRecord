@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>@yield('title')</title>
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
@@ -40,7 +40,7 @@
     <script type="text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
     <script type="text/javascript"  src="{{ asset('js/isotope.pkgd.min.js') }}"></script>
     <script type="text/javascript"  src="{{ asset('js/filter.js') }}"></script>
-   <script src="{{ asset('js/main.js') }}"></script>
+   {{-- <script src="{{ asset('js/main.js') }}"></script> --}}
     
     <script>
         $(document).ready(function() {

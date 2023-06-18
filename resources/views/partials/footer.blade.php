@@ -61,7 +61,7 @@
                 </p>
                 <div class="d-flex pt-4"><h5 class="pe-3 text-success">Email:</h5> <a href="mailto:info@EHR.com">info@EHR.com</a></div>
                 <div class="d-flex"><h5 class="pe-3 text-success">Phone:</h5> <a href="tel:+92 432 54320082" class="">+92 432 54320082</a></div>
-                <div class="d-flex"><h5 class="pe-3 text-success">Timing:</h5> <p>10:00 AM to 10:00 PM</p></div>
+                <div class="d-flex"><h5 class="pe-3 text-success">Timing:</h5> <p>10:00 am to 10:00 pm </p></div>
             </div>
         </div>
     </div>

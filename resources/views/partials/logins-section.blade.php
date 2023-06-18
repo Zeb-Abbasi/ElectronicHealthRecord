@@ -7,7 +7,7 @@
                     <img class="card-img-top" src="assets/images/banner/1.jpg" alt="Card image cap">
                     <div class="card-body text-center">
                         <h5 class="card-title text-secondary fw-bold">Patient Login</h5>
-                        <a href="#" class="btn btn-success my-3">Click Here</a>
+                        <a href="{{ route('patient-login') }}" class="btn btn-success my-3">Click Here</a>
                     </div>
                 </div>
             </div>
@@ -16,7 +16,7 @@
                     <img class="card-img-top" src="assets/images/banner/2.jpg" alt="Card image cap">
                     <div class="card-body text-center">
                         <h5 class="card-title text-secondary fw-bold">Doctors Login</h5>
-                        <a href="#" class="btn btn-success my-3">Click Here</a>
+                        <a href="{{ route('doctor-login') }}" class="btn btn-success my-3">Click Here</a>
                     </div>
                 </div>
             </div>
@@ -25,7 +25,7 @@
                     <img class="card-img-top" src="assets/images/banner/3.jpg" alt="Card image cap">
                     <div class="card-body text-center">
                         <h5 class="card-title text-secondary fw-bold">Admin Login</h5>
-                        <a href="#" class="btn btn-success my-3">Click Here</a>
+                        <a href="{{ route('admin-login') }}" class="btn btn-success my-3">Click Here</a>
                     </div>
                 </div>
             </div>
