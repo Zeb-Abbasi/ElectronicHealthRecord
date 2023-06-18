@@ -29,6 +29,8 @@ Route::get('/patient/login', [AuthController::class, 'showPatientLogin'])->name(
 Route::get('/doctor/login', [AuthController::class, 'showDoctorLogin'])->name('doctor-login');
 Route::get('/admin/login', [AuthController::class, 'showAdminLogin'])->name('admin-login');
 
+Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('forgot-password');
+Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword']);
 
 Route::get('patient/register', [AuthController::class, 'showPatientRegister'])->name('patient-register');
 // //////// //

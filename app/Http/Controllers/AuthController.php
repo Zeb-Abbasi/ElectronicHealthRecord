@@ -18,4 +18,10 @@ class AuthController extends Controller
     public function showPatientRegister(){
         return view('auth.register');
     }
+    public function showForgotPassword(){
+        return view('auth.forgot-password');
+    }
+    public function showResetPassword(){
+        return view('auth.reset-password');
+    }
 }
