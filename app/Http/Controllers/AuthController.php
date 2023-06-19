@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -41,6 +43,17 @@ class AuthController extends Controller
     public function adminLogin(Request $request)
     {
         $credentials = $request->only('email', 'password');
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                'error' => true,
+                'message' => $validator->errors()
+            ]);
+
+        }
 
         // Retrieve the user based on the provided email
         $user = User::where('email', $credentials['email'])->first();
@@ -48,15 +61,14 @@ class AuthController extends Controller
         if ($user && Hash::check($credentials['password'], $user->password)) {
             // Password is correct, log in the user
             Auth::login($user);
-
             // Redirect to the desired location
-            return redirect('/');
+            return redirect()->route('dashboard')->with('success', 'Login successful.');
+            // Session::flash('success', 'Login successful.');
+            // return redirect()->route('dashboard');
         }
 
         // Invalid credentials, redirect back to the login form with an error message
-        return redirect()->back()->withErrors([
-            'email' => 'Invalid email or password.',
-        ]);
+        return redirect()->route('adminLoginForm')->with('error', 'Invalid email or password. Please try again.');
     }
 
     public function showPatientLogin(){
@@ -65,7 +77,7 @@ class AuthController extends Controller
     public function showDoctorLogin(){
         return view('auth.doctor-login');
     }
-    public function showAdminLogin(){
+    public function adminLoginForm(){
         return view('auth.admin-login');
     }
     public function showPatientRegister(){

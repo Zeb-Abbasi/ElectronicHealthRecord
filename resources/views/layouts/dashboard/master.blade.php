@@ -20,7 +20,7 @@
             <main>
                 @yield('content')
             </main>
-            
+
             <!-- Footer-->
             @include('partials.dashboard.footer')
         </div>
@@ -28,9 +28,9 @@
 
 
    <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
-   <script type="text/javascript" src="{{ asset('js/bootstrap.bundle.min.js') }}"></script> 
+   <script type="text/javascript" src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
    <script src="{{ asset('js/dashboard.js') }}"></script>
-    
+
 
 </body>
 

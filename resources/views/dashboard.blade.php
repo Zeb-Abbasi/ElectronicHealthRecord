@@ -5,6 +5,8 @@
 @section('content')
 <div class="container-fluid">
     <h1 class="mt-5 fw-normal text-uppercase fs-2">Dashboard</h1>
+    @include('common.alert')
+    {{-- @include('common.message-modal') --}}
     <div class="row mt-5">
 
         <!-- Earnings (Monthly) Card Example -->
@@ -90,6 +92,6 @@
     @include('partials.about-us')
 
     @include('partials.gallery') --}}
-    
+
 
 @endsection
