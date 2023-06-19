@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -42,52 +43,52 @@ class AuthController extends Controller
 
     public function adminLogin(Request $request)
     {
-        $credentials = $request->only('email', 'password');
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required|string',
+            'password' => 'required',
         ]);
-        if($validator->fails()){
+
+        if ($validator->fails()) {
             return response()->json([
                 'error' => true,
-                'message' => $validator->errors()
+                'validation_errors' => $validator->errors(),
             ]);
-
         }
 
-        // Retrieve the user based on the provided email
-        $user = User::where('email', $credentials['email'])->first();
-        // Verify if the user exists and the password matches
-        if ($user && Hash::check($credentials['password'], $user->password)) {
-            // Password is correct, log in the user
-            Auth::login($user);
-            // Redirect to the desired location
+        $user = User::where('email', $request->email)->first();
+        // if ($user && Hash::check($credentials['password'], $user->password)) {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            Auth::user($user);
             return redirect()->route('dashboard')->with('success', 'Login successful.');
-            // Session::flash('success', 'Login successful.');
-            // return redirect()->route('dashboard');
         }
-
-        // Invalid credentials, redirect back to the login form with an error message
-        return redirect()->route('adminLoginForm')->with('error', 'Invalid email or password. Please try again.');
+        return response()->json([
+            'error' => true,
+            'message' => 'Invalid email or password. Please try again.',
+        ]);
     }
 
-    public function showPatientLogin(){
+    public function showPatientLogin()
+    {
         return view('auth.patient-login');
     }
-    public function showDoctorLogin(){
+    public function showDoctorLogin()
+    {
         return view('auth.doctor-login');
     }
-    public function adminLoginForm(){
+    public function adminLoginForm()
+    {
         return view('auth.admin-login');
     }
-    public function showPatientRegister(){
+    public function showPatientRegister()
+    {
         return view('auth.register');
     }
-    public function showForgotPassword(){
+    public function showForgotPassword()
+    {
         return view('auth.forgot-password');
     }
-    public function showResetPassword(){
+    public function showResetPassword()
+    {
         return view('auth.reset-password');
     }
-
 }

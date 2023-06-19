@@ -31,7 +31,7 @@
                     <a class="nav-link text-secondary" href="{{ route('homepage') }}#contact">Contact</a>
                 </li>
             </ul>
-            <div class="d-flex align-items-center  justify-content-end d-block d-md-none">
+            <div class="d-flex align-items-center  justify-content-center d-block d-md-none">
                 <a href="{{ route('patient-login') }}" class="btn btn-success">Book an Appointment</a>
 
             </div>
