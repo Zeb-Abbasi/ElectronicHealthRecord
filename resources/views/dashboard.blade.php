@@ -3,6 +3,13 @@
 @section('title', 'Dashboard | Electronic Health Record')
 
 @section('content')
+@if($admin)
+{{$admin}}
+@elseif($patient)
+{{$patient}}
+@elseif($doctor)
+{{$doctor}}
+@endif
 <div class="container-fluid">
     <h1 class="mt-5 fw-normal text-uppercase fs-2">Dashboard</h1>
     @include('common.alert')
