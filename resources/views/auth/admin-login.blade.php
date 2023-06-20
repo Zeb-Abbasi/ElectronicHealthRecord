@@ -56,9 +56,10 @@
                 },
                 success: function(response) {
                     if (response.error) {
-                        console.log(response.validation_errors);
                         validationError(response.validation_errors);
-                        printErrorMsg(response.message);
+                        if(response.message){
+                          printErrorMsg(response.message); 
+                        }
                     } else {
                         window.location.href = "{{ route('dashboard') }}";
                     }

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    ////// get form views /////////////////////
     public function patientLoginForm()
     {
         return view('auth.patient-login');
@@ -36,58 +37,51 @@ class AuthController extends Controller
     {
         return view('auth.reset-password');
     }
-    // public function adminLogin(Request $request)
-    // {
-    //     $credentials = [
-    //         'email' => $request->input('email'),
-    //         'password' => $request->input('password'),
-    //     ];
-    //     // Perform authentication, e.g., using Laravel's Auth facade
-    //     if (Auth::attempt($credentials)) {
-    //         // Authentication successful
-    //         $user = Auth::user();
-    //         dd($user);
 
-    //         // Store user information in the users table
-    //         // $userRecord = new User([
-    //         //     'username' => $user->username,
-    //         //     'password' => $user->password,
-    //         //     'email' => $user->email,
-    //         //     'first_name' => $user->first_name,
-    //         //     'last_name' => $user->last_name,
-    //         //     'role' => $user->role,
-    //         // ]);
-    //         // $userRecord->save();
 
-    //         // Continue with the rest of your application logic
-    //     } else {
-    //         // Authentication failed
-    //     }
-    // }
-
+    // post login //
+    
     public function adminLogin(Request $request)
+    {
+        return $this->loginUser($request, 1);
+    }
+    
+    public function doctorLogin(Request $request)
+    {
+        return $this->loginUser($request, 2);
+    }
+    
+    public function patientLogin(Request $request)
+    {
+        return $this->loginUser($request, 3);
+    }
+
+    public function loginUser(Request $request, $roleId)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required',
         ]);
+    
         if ($validator->fails()) {
             return response()->json([
                 'error' => true,
                 'validation_errors' => $validator->errors(),
             ]);
         }
+    
         $credentials = $request->only('email', 'password');
-        $credentials['role_id'] = 1;
+        $credentials['role_id'] = $roleId;
+    
         if (Auth::attempt($credentials)) {
             $user = User::where('email', $request->email)->first();
-            Auth::user($user);
+            Auth::login($user);
             return redirect()->route('dashboard')->with('success', 'Login successful.');
         }
+    
         return response()->json([
             'error' => true,
             'message' => 'Invalid email or password. Please try again.',
         ]);
     }
-
 }

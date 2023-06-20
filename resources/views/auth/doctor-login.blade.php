@@ -6,14 +6,18 @@
 
     <h3 class="mb-5 text-success">EHR | Doctor Login</h3>
     <form class="doctorLoginForm" method="POST">
+        @csrf
+        <div class="invalid-error alert alert-danger d-none"></div>
         <div class="form-outline mb-2">
             <label class="form-label text-success" for="typeEmailX-2">Email</label>
-            <input type="email" id="typeEmailX-2" class="form-control form-control-lg" name="email"/>
+            <input type="email" id="typeEmailX-2" class="form-control form-control-lg" name="email" />
+            <span id="email_error" class="error-message"></span>
         </div>
 
         <div class="form-outline mb-3">
             <label class="form-label text-success" for="typePasswordX-2">Password</label>
-            <input type="password" id="typePasswordX-2" class="form-control form-control-lg" name="password"/>
+            <input type="password" id="typePasswordX-2" class="form-control form-control-lg" name="password" />
+            <span id="password_error" class="error-message"></span>
         </div>
 
         <!-- Checkbox -->
@@ -43,7 +47,7 @@
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             var formData = $('.doctorLoginForm').serialize();
             $.ajax({
-                url: "{{ route('adminLogin') }}",
+                url: "{{ route('doctorLogin') }}",
                 type: 'POST',
                 data: formData,
                 headers: {
@@ -53,7 +57,9 @@
                     if (response.error) {
                         console.log(response.validation_errors);
                         validationError(response.validation_errors);
-                        printErrorMsg(response.message);
+                        if (response.message) {
+                            printErrorMsg(response.message);
+                        }
                     } else {
                         window.location.href = "{{ route('dashboard') }}";
                     }

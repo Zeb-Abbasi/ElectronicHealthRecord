@@ -29,7 +29,7 @@ Route::get('/', function () {
 Route::get('/admin/login', [AuthController::class, 'adminLoginForm'])->name('adminLoginForm');
 Route::post('/admin/login', [AuthController::class, 'adminLogin'])->name('adminLogin');
 
-Route::get('/patient/login', [AuthController::class, 'patientLoginForm'])->name('PatientLoginForm');
+Route::get('/patient/login', [AuthController::class, 'patientLoginForm'])->name('patientLoginForm');
 Route::post('/patient/login', [AuthController::class, 'patientLogin'])->name('patientLogin');
 
 Route::get('/doctor/login', [AuthController::class, 'doctorLoginForm'])->name('doctorLoginForm');
