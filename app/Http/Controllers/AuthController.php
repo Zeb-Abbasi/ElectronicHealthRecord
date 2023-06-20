@@ -12,6 +12,30 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    public function patientLoginForm()
+    {
+        return view('auth.patient-login');
+    }
+    public function doctorLoginForm()
+    {
+        return view('auth.doctor-login');
+    }
+    public function adminLoginForm()
+    {
+        return view('auth.admin-login');
+    }
+    public function showPatientRegister()
+    {
+        return view('auth.register');
+    }
+    public function showForgotPassword()
+    {
+        return view('auth.forgot-password');
+    }
+    public function showResetPassword()
+    {
+        return view('auth.reset-password');
+    }
     // public function adminLogin(Request $request)
     // {
     //     $credentials = [
@@ -47,17 +71,16 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
         if ($validator->fails()) {
             return response()->json([
                 'error' => true,
                 'validation_errors' => $validator->errors(),
             ]);
         }
-
-        $user = User::where('email', $request->email)->first();
-        // if ($user && Hash::check($credentials['password'], $user->password)) {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        $credentials = $request->only('email', 'password');
+        $credentials['role_id'] = 1;
+        if (Auth::attempt($credentials)) {
+            $user = User::where('email', $request->email)->first();
             Auth::user($user);
             return redirect()->route('dashboard')->with('success', 'Login successful.');
         }
@@ -67,28 +90,4 @@ class AuthController extends Controller
         ]);
     }
 
-    public function showPatientLogin()
-    {
-        return view('auth.patient-login');
-    }
-    public function showDoctorLogin()
-    {
-        return view('auth.doctor-login');
-    }
-    public function adminLoginForm()
-    {
-        return view('auth.admin-login');
-    }
-    public function showPatientRegister()
-    {
-        return view('auth.register');
-    }
-    public function showForgotPassword()
-    {
-        return view('auth.forgot-password');
-    }
-    public function showResetPassword()
-    {
-        return view('auth.reset-password');
-    }
 }
