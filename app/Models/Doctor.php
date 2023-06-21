@@ -16,5 +16,12 @@ class Doctor extends Model
         'fees',
         'contact_no',
         'specialization',
+        'role_id'
     ];
+
+    public static function getRecordById($id)
+    {
+        $record =  Doctor::where('id', $id)->first();
+        return $record ?? null;
+    }
 }
