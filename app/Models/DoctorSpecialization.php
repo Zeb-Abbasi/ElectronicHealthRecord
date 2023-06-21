@@ -11,4 +11,9 @@ class DoctorSpecialization extends Model
     protected $fillable = [
         'specialization',
     ];
+    public static function getRecordById($id)
+    {
+        $record =  DoctorSpecialization::where('id', $id)->first();
+        return $record ?? null;
+    }
 }

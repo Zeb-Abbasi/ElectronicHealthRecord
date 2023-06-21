@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Doctor;
+use App\Models\DoctorSpecialization;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class DoctorController extends Controller
+class DoctorSpecializationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +15,9 @@ class DoctorController extends Controller
      */
     public function index(Request $request)
     {
-        $doctors = Doctor::
+        $specializations = DoctorSpecialization::
         when($request->q, function ($query, $q) {
-            return $query->where('name', 'LIKE', "%{$q}%")->orWhere('email', 'LIKE', "%{$q}%")->orWhere('contact_no', 'LIKE', "%{$q}%");
+            return $query->where('specialization', 'LIKE', "%{$q}%");
         })
         ->when($request->sortBy, function ($query, $sortBy) {
             return $query->orderBy($sortBy, request('sortDesc') == 'true' ? 'asc' : 'desc');
@@ -28,8 +27,8 @@ class DoctorController extends Controller
         })
         ->paginate($request->perPage);
 
-        if($doctors) {
-            return view('admin.doctors.index',compact('doctors'));
+        if($specializations) {
+            return view('admin.doctors.specializations.index',compact('specializations'));
         }
 
     }
@@ -41,7 +40,7 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        return view('admin.doctors.doctor');
+        return view('admin.doctors.specializations.specialization');
     }
 
     /**
@@ -53,24 +52,19 @@ class DoctorController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'email' => 'required|email|unique:doctors',
-            'password' => 'required|string|min:8',
-            'fees' => 'required|integer',
-            'specialization' => 'required'
+            'specialization' => 'required|string'
         ]);
         if ($validator->fails()) {
             // $errors = $validator->errors()->all();
             // return response()->json(['errors' => $errors], 422);
-            return redirect()->route('doctors.create')->withErrors($validator);
+            return redirect()->route('specializations.index')->withErrors($validator);
             //  Session::flash('error', $validator->messages()->first());
             //  return redirect()->back()->withInput();
         } else {
-            $doctor = new Doctor($request->all());
-            $doctor->password = Hash::make($request->password);
-            $doctor->role_id = 2;
-            $doctor->save();
-            return redirect()->route('doctors.index')->with('success', 'Doctor has been created successfully!');
+            $specialization = new DoctorSpecialization($request->all());
+            $specialization->specialization = $request->specialization;
+            $specialization->save();
+            return redirect()->route('specializations.index')->with('success', 'Specializatio has been created successfully!');
         }
 
     }
@@ -81,13 +75,13 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        $doctor = Doctor::getRecordById($id);
-        if($doctor) {
-            return view('admin.doctors.show',compact('doctor'));
-        }
-    }
+    // public function show($id)
+    // {
+    //     $specialization = DoctorSpecialization::getRecordById($id);
+    //     if($specialization) {
+    //         return view('admin.doctors.show',compact('specialization'));
+    //     }
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -97,8 +91,8 @@ class DoctorController extends Controller
      */
     public function edit($id)
     {
-        $doctor = Doctor::getRecordById($id);
-        return view('admin.doctors.doctor',compact('doctor'));
+        $specialization = DoctorSpecialization::getRecordById($id);
+        return view('admin.doctors.specializations.specialization',compact('specialization'));
     }
 
     /**
@@ -111,22 +105,19 @@ class DoctorController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'email' => 'required|email|unique:doctors',
-            'fees' => 'required|integer',
-            'specialization' => 'required'
+            'specialization' => 'required|string',
         ]);
         if ($validator->fails()) {
             // $errors = $validator->errors()->all();
             // return response()->json(['errors' => $errors], 422);
-            return redirect()->route('doctors.edit'.$id)->withErrors($validator);
+            return redirect()->route('specializations.edit'.$id)->withErrors($validator);
             //  Session::flash('error', $validator->messages()->first());
             //  return redirect()->back()->withInput();
         } else {
-            $doctor = Doctor::getRecordById($id);
-            $doctor->role_id = 2;
-            $doctor->save();
-            return redirect()->route('doctors.index')->with('success', 'Doctor has been created successfully!');
+            $specialization = DoctorSpecialization::getRecordById($id);
+            $specialization->specialization = $request->specialization;
+            $specialization->save();
+            return redirect()->route('specializations.index')->with('success', 'Specialization has been created successfully!');
         }
     }
 
@@ -138,8 +129,8 @@ class DoctorController extends Controller
      */
     public function destroy($id)
     {
-        $doctor = Doctor::getRecordById($id);
-        $doctor->delete();
-        return redirect()->route('doctors.index')->with('success', 'Doctor has been deleted successfully!');
+        $specialization = DoctorSpecialization::getRecordById($id);
+        $specialization->delete();
+        return redirect()->route('specializations.index')->with('success', 'Specialization has been deleted successfully!');
     }
 }

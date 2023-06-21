@@ -130,6 +130,47 @@ class AuthController extends Controller
         ]);
     }
 
+    // public function changePassword(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         // 'current_password' => 'required',
+    //         // 'new_password' => 'required|string|min:8',
+    //         // 'confirm_password' => 'required|string|min:8|same:new_password',
+    //         'old_password' => 'required',
+    //         'password' => 'required|string|min:6',
+    //         'confirm_password' => 'required|string|min:6|same:password'
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         $errors = $validator->errors()->all();
+    //         return response()->json(['errors' => $errors], 422);
+    //         //  Session::flash('error', $validator->messages()->first());
+    //         //  return redirect()->back()->withInput();
+    //     }
+
+    //     $user = Auth::user();
+    //     dd($user);
+
+    //     $status = Hash::check($request->old_password, $user->password);
+
+    //     if ($status && $user->role_id == 1) {
+    //             User::where('id', $user->id)->update(['password' => Hash::make($request->password)]);
+    //             return response()->json(['status' => true, 'message' => 'Password has been updated successfully!', 'data' => []]);
+    //     }
+    //     else if ($status && $user->role_id == 2) {
+    //             Doctor::where('id', $user->id)->update(['password' => Hash::make($request->password)]);
+    //             return response()->json(['status' => true, 'message' => 'Password has been updated successfully!', 'data' => []]);
+    //     }
+    //     else if ($status && $user->role_id == 1) {
+    //             Patient::where('id', $user->id)->update(['password' => Hash::make($request->password)]);
+    //             return response()->json(['status' => true, 'message' => 'Password has been updated successfully!', 'data' => []]);
+    //     }
+    //     else {
+    //         return response()->json(['status' => false, 'message' => 'Old password not correct!', 'data' => []]);
+    //     }
+
+    // }
+
     // public function adminLogin(Request $request)
     // {
     //     $credentials = $request->only('email', 'password');

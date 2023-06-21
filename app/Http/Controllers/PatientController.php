@@ -11,7 +11,13 @@ use Illuminate\Support\Facades\Validator;
 
 class PatientController extends Controller
 {
-    public function getPatient(Request $request) {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
         $patients = Patient::
         when($request->q, function ($query, $q) {
             return $query->where('name', 'LIKE', "%{$q}%")->orWhere('email', 'LIKE', "%{$q}%")->orWhere('contact_no', 'LIKE', "%{$q}%");
@@ -23,88 +29,120 @@ class PatientController extends Controller
             return $query->offset($page - 1);
         })
         ->paginate($request->perPage);
-        return response()->json([
-            'status' => true,
-            'message' => 'Patients has been fetched successfully!',
-            'data' =>  $patients
-        ]);
+
+        if($patients) {
+            return view('admin.patients.index',compact('patients'));
+        }
 
     }
 
-    public function createPatient(Request $request) {
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('admin.patients.patient');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
-            'email' => 'required|email|unique:doctors',
+            'email' => 'required|email|unique:patients',
             'password' => 'required|string|min:8',
         ]);
         if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            return response()->json(['errors' => $errors], 422);
+            // $errors = $validator->errors()->all();
+            // return response()->json(['errors' => $errors], 422);
+            return redirect()->route('patients.create')->withErrors($validator);
             //  Session::flash('error', $validator->messages()->first());
             //  return redirect()->back()->withInput();
+        } else {
+            $patient = new Patient($request->all());
+            $patient->password = Hash::make($request->password);
+            $patient->role_id = 3;
+            $patient->image = $request->has('image') ? $this->uploadImage($request, 'image') : null;
+            $patient->save();
+            return redirect()->route('patients.index')->with('success', 'Patient has been created successfully!');
         }
-        $patient = new Patient($request->all());
-        $patient->password = Hash::make($request->password);
-        $patient->role_id = 3;
-        $patient->image = $request->has('image') ? $this->uploadImage($request, 'image') : null;
-        $patient->save();
-        $patient['image'] = url($patient->image);
-        return response()->json([
-            'status' => true,
-            'message' => 'Patient has been created successfully!',
-            'data' =>  $patient
-        ]);
-    }
-
-    public function getPatientById($id) {
-        $patient = Patient::getRecordById($id);
-        return response()->json([
-            'status' => true,
-            'message' => 'Patient has been fetched successfully!',
-            'data' =>  $patient
-        ]);
 
     }
 
-    public function updatePatient(Request $request, $id) {
-        $data = $request->all();
-        $validator = Validator::make($data, [
-            'name' => 'required|string',
-            'email' => 'required|email|unique:doctors',
-        ]);
-        if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            return response()->json(['errors' => $errors], 422);
-        }
-        $patient = Patient::getRecordById($id);
-        $data['role_id'] = 3;
-        if($request->has('image')) {
-            $data['image'] = $this->uploadImage($request, 'image');
-        }
-        $patient->update($data);
-        $patient['image'] = url($patient->image);
-        return response()->json([
-            'status' => true,
-            'message' => 'Patient has been updated successfully!',
-            'data' =>  $patient
-        ]);
-    }
-
-    public function deletePatient($id)
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
     {
         $patient = Patient::getRecordById($id);
-        if (empty($patient)) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Patient Not Found',
-                'data' =>  []
-            ]);
+        if($patient) {
+            return view('admin.patients.show',compact('patient'));
         }
-        $patient->delete();
-        return response()->json([
-            'status' => true,
-            'message' => 'Patient has been Deleted Successfully!',
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $patient = Patient::getRecordById($id);
+        return view('admin.patients.patient',compact('patient'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'email' => 'required|email|unique:patients',
         ]);
+        if ($validator->fails()) {
+            // $errors = $validator->errors()->all();
+            // return response()->json(['errors' => $errors], 422);
+            return redirect()->route('patients.edit'.$id)->withErrors($validator);
+            //  Session::flash('error', $validator->messages()->first());
+            //  return redirect()->back()->withInput();
+        } else {
+            $patient = Patient::getRecordById($id);
+            $patient->role_id = 3;
+            if($request->has('image')) {
+                $patient->image = $this->uploadImage($request, 'image');
+            }
+            $patient->save();
+            return redirect()->route('patients.index')->with('success', 'Patient has been created successfully!');
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $patient = Patient::getRecordById($id);
+        $patient->delete();
+        return redirect()->route('patients.index')->with('success', 'Patient has been deleted successfully!');
     }
 
     public function BookAppointment(Request $request) {
@@ -117,8 +155,9 @@ class PatientController extends Controller
             'appointment_time' => 'required',
         ]);
         if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            return response()->json(['errors' => $errors], 422);
+            // $errors = $validator->errors()->all();
+            // return response()->json(['errors' => $errors], 422);
+            return redirect()->route('patients.appointments')->withErrors($validator);
             //  Session::flash('error', $validator->messages()->first());
             //  return redirect()->back()->withInput();
         }
