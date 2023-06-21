@@ -24,3 +24,10 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 
 });
+
+$(document).ready(function() {
+    var table = $('#example').DataTable({
+        lengthChange: false
+    });
+
+});
