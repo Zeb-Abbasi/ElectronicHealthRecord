@@ -52,18 +52,18 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 
 // Doctors Routes
-Route::prefix('doctors')->group(function () {
-    Route::get('/', [DoctorController::class, 'index'])->name('index');
-    Route::get('/create', [DoctorController::class, 'create'])->name('create');
-    Route::post('/store', [DoctorController::class, 'store'])->name('store');
-    Route::get('/show/{id}', [DoctorController::class, 'show'])->name('show');
-    Route::get('/edit/{id}', [DoctorController::class, 'edit'])->name('edit');
-    Route::put('/update/{id}', [DoctorController::class, 'update'])->name('update');
-    Route::delete('/delete/{id}', [DoctorController::class, 'destroy'])->name('delete');
+Route::prefix('doctors')->name('doctors')->group(function () {
+    Route::get('/', [DoctorController::class, 'index'])->name('.index');
+    Route::get('/create', [DoctorController::class, 'create'])->name('.create');
+    Route::post('/store', [DoctorController::class, 'store'])->name('.store');
+    Route::get('/show/{id}', [DoctorController::class, 'show'])->name('.show');
+    Route::get('/edit/{id}', [DoctorController::class, 'edit'])->name('.edit');
+    Route::put('/update/{id}', [DoctorController::class, 'update'])->name('.update');
+    Route::delete('/delete/{id}', [DoctorController::class, 'destroy'])->name('.delete');
 });
 
 // Doctor Specialization Routes
-Route::prefix('specializations')->group(function () {
+Route::prefix('specializations')->name('specializations')->group(function () {
     Route::get('/', [DoctorSpecializationController::class, 'index'])->name('index');
     Route::get('/create', [DoctorSpecializationController::class, 'create'])->name('create');
     Route::post('/store', [DoctorSpecializationController::class, 'store'])->name('store');
