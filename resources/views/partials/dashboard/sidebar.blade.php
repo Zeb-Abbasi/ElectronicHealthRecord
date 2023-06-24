@@ -4,15 +4,15 @@
     <div class="list-group list-group-flush">
         {{-- User / patient --}}
         {{-- @if ($user->role_id == 1) --}}
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Doctors</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Patients</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{{route('doctors.index')}}">Doctors</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{{route('patients.index')}}">Patients</a>
             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Appointment
                 History</a>
             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Reports</a>
         {{-- @endif --}}
         {{-- @if ($user->role_id == 2) --}}
             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Dashboard</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Patients</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{{route('patients.index')}}">Patients</a>
             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Appointment
                 History</a>
         {{-- @endif --}}
