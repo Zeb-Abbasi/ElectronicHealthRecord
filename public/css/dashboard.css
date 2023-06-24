@@ -61,7 +61,10 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
 
 
 
-
+/* /// show patients  */
+.object-fit-cover {
+  object-fit: cover;
+}
 
 
 @media (min-width: 768px) {

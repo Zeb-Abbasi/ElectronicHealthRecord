@@ -64,22 +64,22 @@ Route::prefix('doctors')->name('doctors')->group(function () {
 
 // Doctor Specialization Routes
 Route::prefix('specializations')->name('specializations')->group(function () {
-    Route::get('/', [DoctorSpecializationController::class, 'index'])->name('index');
-    Route::get('/create', [DoctorSpecializationController::class, 'create'])->name('create');
-    Route::post('/store', [DoctorSpecializationController::class, 'store'])->name('store');
+    Route::get('/', [DoctorSpecializationController::class, 'index'])->name('.index');
+    Route::get('/create', [DoctorSpecializationController::class, 'create'])->name('.create');
+    Route::post('/store', [DoctorSpecializationController::class, 'store'])->name('.store');
     // Route::get('/show/{id}', [DoctorSpecializationController::class, 'show'])->name('show');
-    Route::get('/edit/{id}', [DoctorSpecializationController::class, 'edit'])->name('edit');
-    Route::put('/update/{id}', [DoctorSpecializationController::class, 'update'])->name('update');
-    Route::delete('/delete/{id}', [DoctorSpecializationController::class, 'destroy'])->name('delete');
+    Route::get('/edit/{id}', [DoctorSpecializationController::class, 'edit'])->name('.edit');
+    Route::put('/update/{id}', [DoctorSpecializationController::class, 'update'])->name('.update');
+    Route::delete('/delete/{id}', [DoctorSpecializationController::class, 'destroy'])->name('.delete');
 });
 
 // Patient Routes
-Route::prefix('patients')->group(function () {
-    Route::get('/', [PatientController::class, 'index'])->name('index');
-    Route::get('/create', [PatientController::class, 'create'])->name('create');
-    Route::post('/store', [PatientController::class, 'store'])->name('store');
-    Route::get('/show/{id}', [PatientController::class, 'show'])->name('show');
-    Route::get('/edit/{id}', [PatientController::class, 'edit'])->name('edit');
-    Route::put('/update/{id}', [PatientController::class, 'update'])->name('update');
-    Route::delete('/delete/{id}', [PatientController::class, 'destroy'])->name('delete');
+Route::prefix('patients')->name('patients')->group(function () {
+    Route::get('/', [PatientController::class, 'index'])->name('.index');
+    Route::get('/create', [PatientController::class, 'create'])->name('.create');
+    Route::post('/store', [PatientController::class, 'store'])->name('.store');
+    Route::get('/show/{id}', [PatientController::class, 'show'])->name('.show');
+    Route::get('/edit/{id}', [PatientController::class, 'edit'])->name('.edit');
+    Route::put('/update/{id}', [PatientController::class, 'update'])->name('.update');
+    Route::delete('/delete/{id}', [PatientController::class, 'destroy'])->name('.delete');
 });

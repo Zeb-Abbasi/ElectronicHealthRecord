@@ -4,73 +4,9 @@
 
 @section('content')
     <div class="container-fluid mt-5">
-        {{-- <form class="addDoctorForm" method="POST" >
-            @csrf
-            <div class="invalid-error alert alert-danger d-none">
-
-            </div>
-            <div class="form-group mt-3">
-                <label for="doctor_specialization">Doctor Specialization</label>
-                <select class="form-select mt-1" id="doctor_specialization" name="specialization" required>
-                    <option value="">Select Specialization</option>
-                    @foreach ($doctor_specializations as $doctor_spec)
-                        <option value="{{ $doctor_spec->specialization }}">{{ $doctor_spec->specialization }}</option>
-                    @endforeach
-                </select>
-                <span id="specialization_error" class="error-message"></span>
-            </div>
-
-            <div class="form-group mt-3">
-                <label for="doctor_name">Doctor Name</label>
-                <input type="text" class="form-control mt-1" id="doctor_name" name="name" required>
-                <span id="name_error" class="error-message"></span>
-            </div>
-
-            <div class="form-group mt-3">
-                <label for="clinic_address">Doctor Clinic Address</label>
-                <input type="text" class="form-control mt-1" id="clinic_address" name="address" required>
-                <span id="address_error" class="error-message"></span>
-
-            </div>
-
-            <div class="form-group mt-3">
-                <label for="consultancy_fees">Doctor Consultancy Fees</label>
-                <input type="text" class="form-control mt-1" id="consultancy_fees" name="fees" required>
-                <span id="fees_error" class="error-message"></span>
-            </div>
-
-            <div class="form-group mt-3">
-                <label for="contact_no">Doctor Contact No</label>
-                <input type="text" class="form-control mt-1" id="contact_no" name="contact_no" required>
-                <span id="contact_no_error" class="error-message"></span>
-
-            </div>
-
-            <div class="form-group mt-3">
-                <label for="email">Doctor Email</label>
-                <input type="email" class="form-control mt-1" id="email" name="email" required>
-                <span id="email_error" class="error-message"></span>
-            </div>
-
-            <div class="form-group mt-3">
-                <label for="password">Password</label>
-                <input type="password" class="form-control mt-1" id="password" name="password" required>
-                <span id="password_error" class="error-message"></span>
-            </div>
-
-            <div class="form-group mt-3">
-                <label for="password_confirmation">Confirm Password</label>
-                <input type="password" class="form-control mt-1" id="password_confirmation" name="confirm_password"
-                    required>
-                <span id="confirm_password_error" class="error-message"></span>
-
-            </div>
-            <button id="addDoctor" class="btn btn-primary btn-lg btn-block btn-success my-3" type="submit">Add Doctor</button>
-            
-
-        </form> --}}
         <form class="addDoctorForm" method="{{ isset($doctor) ? 'PUT' : 'POST' }}">
             @csrf
+            
             <div class="invalid-error alert alert-danger d-none"></div>
 
             <div class="form-group mt-3">

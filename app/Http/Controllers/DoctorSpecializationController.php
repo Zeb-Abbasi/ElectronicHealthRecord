@@ -15,22 +15,10 @@ class DoctorSpecializationController extends Controller
      */
     public function index(Request $request)
     {
-        $specializations = DoctorSpecialization::
-        when($request->q, function ($query, $q) {
-            return $query->where('specialization', 'LIKE', "%{$q}%");
-        })
-        ->when($request->sortBy, function ($query, $sortBy) {
-            return $query->orderBy($sortBy, request('sortDesc') == 'true' ? 'asc' : 'desc');
-        })
-        ->when($request->page, function ($query, $page) {
-            return $query->offset($page - 1);
-        })
-        ->paginate($request->perPage);
-
-        if($specializations) {
-            return view('admin.doctors.specializations.index',compact('specializations'));
+        $specializations = DoctorSpecialization::all();
+        if ($specializations) {
+            return view('admin.doctors.specializations.index', compact('specializations'));
         }
-
     }
 
     /**
@@ -55,18 +43,18 @@ class DoctorSpecializationController extends Controller
             'specialization' => 'required|string'
         ]);
         if ($validator->fails()) {
-            // $errors = $validator->errors()->all();
-            // return response()->json(['errors' => $errors], 422);
-            return redirect()->route('specializations.index')->withErrors($validator);
-            //  Session::flash('error', $validator->messages()->first());
-            //  return redirect()->back()->withInput();
-        } else {
-            $specialization = new DoctorSpecialization($request->all());
-            $specialization->specialization = $request->specialization;
-            $specialization->save();
-            return redirect()->route('specializations.index')->with('success', 'Specializatio has been created successfully!');
+            return response()->json([
+                'error' => true,
+                'validation_errors' => $validator->errors(),
+            ]);
         }
-
+        $specialization = new DoctorSpecialization($request->all());
+        $specialization->specialization = $request->specialization;
+        $specialization->save();
+        return response()->json([
+            'success' => true,
+            'message' => 'Specialization has been created successfully!',
+        ]);
     }
 
     /**
@@ -92,7 +80,7 @@ class DoctorSpecializationController extends Controller
     public function edit($id)
     {
         $specialization = DoctorSpecialization::getRecordById($id);
-        return view('admin.doctors.specializations.specialization',compact('specialization'));
+        return view('admin.doctors.specializations.specialization', compact('specialization'));
     }
 
     /**
@@ -108,17 +96,18 @@ class DoctorSpecializationController extends Controller
             'specialization' => 'required|string',
         ]);
         if ($validator->fails()) {
-            // $errors = $validator->errors()->all();
-            // return response()->json(['errors' => $errors], 422);
-            return redirect()->route('specializations.edit'.$id)->withErrors($validator);
-            //  Session::flash('error', $validator->messages()->first());
-            //  return redirect()->back()->withInput();
-        } else {
-            $specialization = DoctorSpecialization::getRecordById($id);
-            $specialization->specialization = $request->specialization;
-            $specialization->save();
-            return redirect()->route('specializations.index')->with('success', 'Specialization has been created successfully!');
+            return response()->json([
+                'error' => true,
+                'validation_errors' => $validator->errors(),
+            ]);
         }
+        $specialization = DoctorSpecialization::getRecordById($id);
+        $specialization->specialization = $request->specialization;
+        $specialization->save();
+        return response()->json([
+            'success' => true,
+            'message' => 'Specialization has updated created successfully!',
+        ]);
     }
 
     /**
