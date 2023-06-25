@@ -21,6 +21,12 @@ class Patient extends Model
         'image',
         'role_id',
     ];
+
+        public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
     public static function getRecordById($id)
     {
         $record =  Patient::where('id', $id)->first();

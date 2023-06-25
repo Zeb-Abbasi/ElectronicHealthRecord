@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\Patient;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -70,7 +71,8 @@ class PatientController extends Controller
         }
         $patient = new Patient($request->all());
         $patient->password = Hash::make($request->password);
-        $patient->role_id = 3;
+        // $patient->role_id = 3;
+        $patient->role_id  = Role::where('name', 'patient')->value('id');
         $patient->image = $request->has('image') ? $this->uploadImage($request, 'image') : null;
         $patient->save();
         return response()->json([
@@ -134,7 +136,8 @@ class PatientController extends Controller
         $patient->contact_no = $request->input('contact_no');
         $patient->age = $request->input('age');
         $patient->med_his = $request->input('med_his');
-        $patient->role_id = 3;
+        // $patient->role_id = 3;
+        $patient->role_id  = Role::where('name', 'patient')->value('id');
 
         if ($request->has('image')) {
             $patient->image = $this->uploadImage($request, 'image');
@@ -160,7 +163,7 @@ class PatientController extends Controller
         return redirect()->route('patients.index')->with('success', 'Patient has been deleted successfully!');
     }
 
-    public function BookAppointment(Request $request)
+    public function bookAppointment(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'doctor_specialization' => 'required|string',

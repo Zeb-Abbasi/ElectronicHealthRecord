@@ -18,7 +18,11 @@ class DashboardController extends Controller
         // } else if($patient) {
         //     return view('dashboard',compact('patient'));
         // }
-        $user = Auth::user();
-        return view('dashboard',compact('user'));
+        // $user = Auth::user();
+        if(Auth::user()) {
+            return view('dashboard');
+        } else {
+            return redirect('/');
+        }
     }
 }

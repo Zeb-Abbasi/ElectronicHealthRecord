@@ -58,7 +58,7 @@
                     if (response.error) {
                         validationError(response.validation_errors);
                         if(response.message){
-                          printErrorMsg(response.message); 
+                          printErrorMsg(response.message);
                         }
                     } else {
                         window.location.href = "{{ route('dashboard') }}";
