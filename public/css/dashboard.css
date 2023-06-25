@@ -1,3 +1,6 @@
+/* universasl */
+
+
 /* sidebar */
 #wrapper {
   overflow-x: hidden;
@@ -52,7 +55,17 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     color: #dddfeb!important;
 }
 
-
+/* //dashboard pagination */
+.page-item.active .page-link{
+  background-color: #198754;
+    border-color: #198754;
+}
+.page-link{
+  color: #198754;
+}
+.page-link:hover{
+  color: #198754;
+}
 /* AUTH */
 .error-message{
   font-size: small;

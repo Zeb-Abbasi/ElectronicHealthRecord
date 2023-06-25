@@ -3,7 +3,10 @@
 @section('title', 'Dashboard | Electronic Health Record')
 
 @section('content')
-    <div class="container-fluid mt-5">
+<div class="page-heading p-4 bg-light">
+    <h2 class="text-success ">{{ isset($specialization) ? 'EDIT' : 'ADD' }} DOCTOR SPECIALIZATION</h2>
+</div>
+    <div class="container-fluid mt-3 mb-5">
         <form class="addSpecializationForm" method="{{ isset($specialization) ? 'PUT' : 'POST' }}">
             @csrf
             <div class="invalid-error alert alert-danger d-none"></div>

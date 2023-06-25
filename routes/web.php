@@ -83,7 +83,8 @@ Route::prefix('patients')->name('patients')->group(function () {
     Route::put('/update/{id}', [PatientController::class, 'update'])->name('.update');
     Route::delete('/delete/{id}', [PatientController::class, 'destroy'])->name('.delete');
     Route::get('/create-appointment', [PatientController::class, 'bookAppointment'])->name('.book-appointment');
-    Route::get('/store-appointment', [PatientController::class, 'storeAppointment'])->name('.store-appointment');
+    Route::post('/store-appointment', [PatientController::class, 'storeAppointment'])->name('.store-appointment');
+    Route::get('/appointment-history', [PatientController::class, 'appointmentHistory'])->name('.appointment-history');
 
     // Route::get('/', [PatientController::class, 'index'])->name('.index');
 

@@ -3,8 +3,10 @@
 @section('title', 'Dashboard | Electronic Health Record')
 
 @section('content')
-    
-    <div class="container-fluid mt-5">
+    <div class="page-heading p-4 bg-light">
+        <h2 class="text-success ">{{ isset($patient) ? 'EDIT' : 'ADD' }} PATIENTS</h2>
+    </div>
+    <div class="container-fluid mt-3 mb-5">
         <form id="dataForm" action="{{ isset($patient) ? route('patients.update', $patient->id) : route('patients.store') }}"
             method="POST" enctype="multipart/form-data">
             @csrf
@@ -100,7 +102,7 @@
             @endif
 
 
- 
+
             <button class="btn btn-primary btn-lg btn-block btn-success my-3" type="submit">
                 {{ isset($patient) ? 'Update Patient' : 'Add Patient' }}
             </button>
@@ -113,8 +115,6 @@
 
 @section('scripts')
     <script>
-       
-
         //////////////////////////////////////////////new code
 
 

@@ -131,17 +131,23 @@ class PatientController extends Controller
         $patient->delete();
         return redirect()->route('patients.index')->with('success', 'Patient has been deleted successfully!');
     }
+    public function appointmentHistory(){
+        $appointments = Appointment::all();
+        if ($appointments) {
+            return view('patients.appointments.appointment_history', compact('appointments'));
+        }
+    }
     public function bookAppointment(){
         $doctors =  Doctor::all();
         $specializations = DoctorSpecialization::all();
         return view('patients.appointments.book_appointment', compact('doctors', 'specializations'));
     }
+
     public function storeAppointment(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'doctor_specialization' => 'required|string',
             'doctor_id' => 'required|integer',
-            'patient_id' => 'required|integer',
             'consultancy_fees' => 'required|integer',
             'appointment_date' => 'required',
             'appointment_time' => 'required',

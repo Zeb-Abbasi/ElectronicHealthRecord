@@ -3,7 +3,10 @@
 @section('title', 'Dashboard | Electronic Health Record')
 
 @section('content')
-    <div class="container-fluid mt-5">
+    <div class="page-heading p-4 bg-light">
+        <h2 class="text-success ">PATIENT</h2>
+    </div>
+    <div class="container-fluid mt-3 mb-5">
 
         <h3 class="text-success fw-bold mb-5">Patient Details</h3>
         <div class="row">

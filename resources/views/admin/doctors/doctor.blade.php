@@ -3,10 +3,13 @@
 @section('title', 'Dashboard | Electronic Health Record')
 
 @section('content')
-    <div class="container-fluid mt-5">
+    <div class="page-heading p-4 bg-light">
+        <h2 class="text-success ">{{ isset($doctor) ? 'EDIT' : 'ADD' }} DOCTORS</h2>
+    </div>
+    <div class="container-fluid mt-3 mb-5">
         <form class="addDoctorForm" method="{{ isset($doctor) ? 'PUT' : 'POST' }}">
             @csrf
-            
+
             <div class="invalid-error alert alert-danger d-none"></div>
 
             <div class="form-group mt-3">
