@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\Doctor;
+use App\Models\DoctorSpecialization;
 use App\Models\Patient;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -13,11 +14,8 @@ use Illuminate\Support\Facades\Validator;
 
 class PatientController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+
     public function index(Request $request)
     {
         // $patients = Patient::
@@ -37,23 +35,14 @@ class PatientController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         $doctors =  Doctor::all();
         return view('admin.patients.patient', compact('doctors'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
 
@@ -81,12 +70,6 @@ class PatientController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $patient = Patient::getRecordById($id);
@@ -95,12 +78,7 @@ class PatientController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         $patient = Patient::getRecordById($id);
@@ -108,13 +86,7 @@ class PatientController extends Controller
         return view('admin.patients.patient', compact('patient', 'doctors'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -162,8 +134,12 @@ class PatientController extends Controller
         $patient->delete();
         return redirect()->route('patients.index')->with('success', 'Patient has been deleted successfully!');
     }
-
-    public function bookAppointment(Request $request)
+    public function bookAppointment(){
+        $doctors =  Doctor::all();
+        $specializations = DoctorSpecialization::all();
+        return view('patients.appointments.book_appointment', compact('doctors', 'specializations'));
+    }
+    public function storeAppointment(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'doctor_specialization' => 'required|string',
@@ -174,11 +150,10 @@ class PatientController extends Controller
             'appointment_time' => 'required',
         ]);
         if ($validator->fails()) {
-            // $errors = $validator->errors()->all();
-            // return response()->json(['errors' => $errors], 422);
-            return redirect()->route('patients.appointments')->withErrors($validator);
-            //  Session::flash('error', $validator->messages()->first());
-            //  return redirect()->back()->withInput();
+            return response()->json([
+                'error' => true,
+                'validation_errors' => $validator->errors(),
+            ]);
         }
         $appointment = new Appointment($request->all());
         $appointment->patient_id = Auth::user()->id;

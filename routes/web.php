@@ -37,8 +37,6 @@ Route::post('/doctor/login', [AuthController::class, 'doctorLogin'])->name('doct
 
 Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('forgot-password');
 Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword']);
-
-
 Route::group(['middleware' => 'auth'], function () {
 
     Route::post('change-password', [AuthController::class, 'changePassword']);
@@ -104,6 +102,8 @@ Route::group(['middleware' => 'auth'], function () {
         //      //Patients Routes
         //      Route::get('patients/', [DoctorController::class, 'index'])->name('patients.index');
         //      Route::get('patients/show/{id}', [DoctorController::class, 'show'])->name('patients.show');
+        //      Route::get('/create-appointment', [PatientController::class, 'bookAppointment'])->name('.book-appointment');
+        //      Route::get('/store-appointment', [PatientController::class, 'storeAppointment'])->name('.store-appointment');
         // });
 
 });
@@ -167,7 +167,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
-        // Doctors Routes
+// Doctors Routes
 // Route::prefix('doctors')->name('doctors')->group(function () {
 //     Route::get('/', [DoctorController::class, 'index'])->name('.index');
 //     Route::get('/create', [DoctorController::class, 'create'])->name('.create');
