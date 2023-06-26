@@ -32,14 +32,14 @@
                 </li>
             </ul>
             <div class="d-flex align-items-center  justify-content-center d-block d-md-none">
-                <a href="{{ route('patientLoginForm') }}" class="btn btn-success">Book an Appointment</a>
+                <a href="{{ route('loginForm') }}" class="btn btn-success">Book an Appointment</a>
 
             </div>
         </div>
 
         <!-- Button -->
         <div class="d-flex align-items-center d-none d-md-block">
-            <a href="{{ route('patientLoginForm') }}" class="btn btn-success">Book an Appointment</a>
+            <a href="{{ route('loginForm') }}" class="btn btn-success">Book an Appointment</a>
         </div>
     </div>
 </header>

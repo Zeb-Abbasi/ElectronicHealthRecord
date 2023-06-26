@@ -8,42 +8,62 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
     ////// get form views /////////////////////
-    public function adminLoginForm()
+    public function loginForm()
     {
-        $user = Auth::user();
-        if (Auth::check() && $user->role->name === 'admin') {
-            return redirect()->route('dashboard')->with('user', $user);
+        if (Auth::guard('doctor')->check() || Auth::guard('patient')->check() || Auth::guard('admin')->check()) {
+            return redirect()->route('dashboard');
         } else {
-            return view('auth.admin-login');
+            return view('auth.login');
         }
     }
 
-    public function doctorLoginForm()
-    {
-        $user = Auth::user();
-        if (Auth::check() && $user->role->name === 'doctor') {
-            return redirect()->route('dashboard')->with('user', $user);
-        } else {
-            return view('auth.doctor-login');
-        }
-    }
+     // post login //
+     public function login(Request $request)
+     {
+         $validator = Validator::make($request->all(), [
+             'email' => 'required|email',
+             'password' => 'required',
+         ]);
 
-    public function patientLoginForm()
-    {
-        $user = Auth::user();
-        if (Auth::check() && $user->role->name === 'patient') {
-            return redirect()->route('dashboard')->with('user', $user);
-        } else {
-            return view('auth.patient-login');
-        }
-    }
+         if ($validator->fails()) {
+             return response()->json([
+                 'error' => true,
+                 'validation_errors' => $validator->errors(),
+             ]);
+         }
+
+         $credentials = $request->only('email', 'password');
+
+         if (Auth::guard('admin')->attempt($credentials)) {
+             $user = User::where('email', $request->email)->first();
+             if ($user && Hash::check($request->password, $user->password)) {
+                 Auth::guard('admin')->login($user);
+                 return redirect()->route('dashboard')->with('success', 'Login successful.');
+             }
+         } else if (Auth::guard('doctor')->attempt($credentials)) {
+             $user = Doctor::where('email', $request->email)->first();
+             if ($user && Hash::check($request->password, $user->password)) {
+                 Auth::guard('doctor')->login($user);
+                 return redirect()->route('dashboard')->with('success', 'Login successful.');
+             }
+         } else if (Auth::guard('patient')->attempt($credentials)) {
+             $user = Patient::where('email', $request->email)->first();
+             if ($user && Hash::check($request->password, $user->password)) {
+                 Auth::guard('patient')->login($user);
+                 return redirect()->route('dashboard')->with('success', 'Login successful.');
+             }
+         }
+
+         return response()->json([
+             'error' => true,
+             'message' => 'Invalid email or password. Please try again.',
+         ]);
+     }
 
     public function showForgotPassword()
     {
@@ -54,98 +74,6 @@ class AuthController extends Controller
         return view('auth.reset-password');
     }
 
-
-    // post login //
-
-    public function adminLogin(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => true,
-                'validation_errors' => $validator->errors(),
-            ]);
-        }
-
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::guard('admin')->attempt($credentials)) {
-            $user = User::where('email', $request->email)->first();
-            if ($user && Hash::check($request->password, $user->password)) {
-                Auth::login($user);
-                return redirect()->route('dashboard')->with('success', 'Login successful.');
-            }
-        }
-
-        return response()->json([
-            'error' => true,
-            'message' => 'Invalid email or password. Please try again.',
-        ]);
-    }
-
-    public function doctorLogin(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => true,
-                'validation_errors' => $validator->errors(),
-            ]);
-        }
-
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::guard('doctor')->attempt($credentials)) {
-            $user = Doctor::where('email', $request->email)->first();
-            if ($user && Hash::check($request->password, $user->password)) {
-                Auth::login($user);
-                return redirect()->route('dashboard')->with('success', 'Login successful.');
-            }
-        }
-
-        return response()->json([
-            'error' => true,
-            'message' => 'Invalid email or password. Please try again.',
-        ]);
-    }
-
-    public function patientLogin(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => true,
-                'validation_errors' => $validator->errors(),
-            ]);
-        }
-
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::guard('patient')->attempt($credentials)) {
-            $user = Patient::where('email', $request->email)->first();
-            if ($user && Hash::check($request->password, $user->password)) {
-                Auth::login($user);
-                return redirect()->route('dashboard')->with('success', 'Login successful.');
-            }
-        }
-
-        return response()->json([
-            'error' => true,
-            'message' => 'Invalid email or password. Please try again.',
-        ]);
-    }
 
     public function getProfile(Request $request)
     {
@@ -177,55 +105,24 @@ class AuthController extends Controller
         if ($validator->fails()) {
             $errors = $validator->errors()->all();
             return response()->json(['errors' => $errors], 422);
-            //  Session::flash('error', $validator->messages()->first());
-            //  return redirect()->back()->withInput();
         }
 
         $user = Auth::user();
         $status = Hash::check($request->old_password, $user->password);
 
-        if ($status && $user->role->name == 'admin') {
+        if ($status && Auth::guard('admin')) {
             User::where('id', $user->id)->update(['password' => Hash::make($request->password)]);
             return response()->json(['status' => true, 'message' => 'Password has been updated successfully!', 'data' => []]);
-        } else if ($status && $user->role->name == 'doctor') {
+        } else if ($status && Auth::guard('doctor')) {
             Doctor::where('id', $user->id)->update(['password' => Hash::make($request->password)]);
             return response()->json(['status' => true, 'message' => 'Password has been updated successfully!', 'data' => []]);
-        } else if ($status && $user->role->name == 'patient') {
+        } else if ($status && Auth::guard('patient')) {
             Patient::where('id', $user->id)->update(['password' => Hash::make($request->password)]);
             return response()->json(['status' => true, 'message' => 'Password has been updated successfully!', 'data' => []]);
         } else {
             return response()->json(['status' => false, 'message' => 'Old password not correct!', 'data' => []]);
         }
     }
-
-    // public function adminLogin(Request $request)
-    // {
-    //     $credentials = $request->only('email', 'password');
-    //     $validator = Validator::make($request->all(), [
-    //         'email' => 'required|email',
-    //         'password' => 'required|string',
-    //     ]);
-    //     if($validator->fails()){
-    //         return response()->json([
-    //             'error' => true,
-    //             'message' => $validator->errors()
-    //         ]);
-
-    //     }
-
-
-    //      // Attempt to authenticate the admin user
-    //     if (Auth::guard('admin')->attempt($credentials)) {
-    //         $admin = Auth::guard('admin')->user();
-    //         // Authentication successful, redirect to the admin dashboard
-    //         return redirect()->route('dashboard')->with('admin',$admin);
-    //         // return view('dashboard',compact('admin'));
-    //     }
-
-    // // Authentication failed, redirect back to the login form with an error message
-    // return redirect()->back()->with(['error' => 'Invalid credentials']);
-    // // return redirect()->route('adminLoginForm')->with('error', 'Invalid email or password. Please try again.');
-    // }
 
     public function logout()
     {

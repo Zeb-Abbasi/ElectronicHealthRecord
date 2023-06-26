@@ -57,7 +57,7 @@
     </form>
 
     <p class="text-secondary">Already have an account? <a class="text-success"
-            href="{{ route('patientLogin') }}">Log-in</a></p>
+            href="{{ route('login') }}">Log-in</a></p>
 
     <hr class="my-4">
     <div class="copyright text-secondary text-center">

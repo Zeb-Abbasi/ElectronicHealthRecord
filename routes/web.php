@@ -25,21 +25,25 @@ Route::get('/', function () {
 
 //  Auth ///
 
-Route::get('/admin/login', [AuthController::class, 'adminLoginForm'])->name('adminLoginForm');
-Route::post('/admin/login', [AuthController::class, 'adminLogin'])->name('adminLogin');
+// Route::get('/admin/login', [AuthController::class, 'adminLoginForm'])->name('adminLoginForm');
+// Route::post('/admin/login', [AuthController::class, 'adminLogin'])->name('adminLogin');
 
-Route::get('/patient/login', [AuthController::class, 'patientLoginForm'])->name('patientLoginForm');
-Route::post('/patient/login', [AuthController::class, 'patientLogin'])->name('patientLogin');
+// Route::get('/patient/login', [AuthController::class, 'patientLoginForm'])->name('patientLoginForm');
+// Route::post('/patient/login', [AuthController::class, 'patientLogin'])->name('patientLogin');
 
-Route::get('/doctor/login', [AuthController::class, 'doctorLoginForm'])->name('doctorLoginForm');
-Route::post('/doctor/login', [AuthController::class, 'doctorLogin'])->name('doctorLogin');
+// Route::get('/doctor/login', [AuthController::class, 'doctorLoginForm'])->name('doctorLoginForm');
+// Route::post('/doctor/login', [AuthController::class, 'doctorLogin'])->name('doctorLogin');
+
+Route::get('/login', [AuthController::class, 'loginForm'])->name('loginForm');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('forgot-password');
 Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword']);
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::group(['middleware' => 'auth'], function () {
+// Route::group(['middleware' => 'auth'], function () {
 
     Route::post('change-password', [AuthController::class, 'changePassword']);
     Route::get('profile', [AuthController::class, 'getProfile']);
@@ -48,36 +52,41 @@ Route::group(['middleware' => 'auth'], function () {
 
 
         // Admin Role Routes
-        Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
+        // Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
 
                 //Doctors Routes
-                Route::get('doctors/', [DoctorController::class, 'index'])->name('doctors.index');
-                Route::get('doctors/create', [DoctorController::class, 'create'])->name('doctors.create');
-                Route::post('doctors/store', [DoctorController::class, 'store'])->name('doctors.store');
-                Route::get('doctors/show/{id}', [DoctorController::class, 'show'])->name('doctors.show');
-                Route::get('doctors/edit/{id}', [DoctorController::class, 'edit'])->name('doctors.edit');
-                Route::put('doctors/update/{id}', [DoctorController::class, 'update'])->name('doctors.update');
-                Route::delete('doctors/delete/{id}', [DoctorController::class, 'destroy'])->name('doctors.delete');
-
+                Route::prefix('doctors')->name('doctors')->group(function () {
+                    Route::get('/', [DoctorController::class, 'index'])->name('.index');
+                    Route::get('/create', [DoctorController::class, 'create'])->name('.create')->middleware('check.guard:doctor');
+                    Route::post('/store', [DoctorController::class, 'store'])->name('.store');
+                    Route::get('/show/{id}', [DoctorController::class, 'show'])->name('.show');
+                    Route::get('/edit/{id}', [DoctorController::class, 'edit'])->name('.edit');
+                    Route::put('/update/{id}', [DoctorController::class, 'update'])->name('.update');
+                    Route::delete('/delete/{id}', [DoctorController::class, 'destroy'])->name('.delete');
+                });
                  //Patients Routes
-                 Route::get('patients/', [PatientController::class, 'index'])->name('patients.index');
-                 Route::get('patients/create', [PatientController::class, 'create'])->name('patients.create');
-                 Route::post('patients/store', [PatientController::class, 'store'])->name('patients.store');
-                 Route::get('patients/show/{id}', [PatientController::class, 'show'])->name('patients.show');
-                 Route::get('patients/edit/{id}', [PatientController::class, 'edit'])->name('patients.edit');
-                 Route::put('patients/update/{id}', [PatientController::class, 'update'])->name('patients.update');
-                 Route::delete('patients/delete/{id}', [PatientController::class, 'destroy'])->name('patients.delete');
-
+                Route::prefix('patients')->name('patients')->group(function () {
+                    Route::get('/', [PatientController::class, 'index'])->name('.index');
+                    Route::get('/create', [PatientController::class, 'create'])->name('.create');
+                    Route::post('/store', [PatientController::class, 'store'])->name('.store');
+                    Route::get('/show/{id}', [PatientController::class, 'show'])->name('.show');
+                    Route::get('/edit/{id}', [PatientController::class, 'edit'])->name('.edit');
+                    Route::put('/update/{id}', [PatientController::class, 'update'])->name('.update');
+                    Route::delete('/delete/{id}', [PatientController::class, 'destroy'])->name('.delete');
+                });
                 //  Doctor Specialization Routes
 
-                 Route::get('specializations/', [DoctorSpecializationController::class, 'index'])->name('specializations.index');
-                 Route::get('specializations/create', [DoctorSpecializationController::class, 'create'])->name('specializations.create');
-                 Route::post('/store', [DoctorSpecializationController::class, 'store'])->name('specializations.store');
-                // Route::get('/show/{id}', [DoctorSpecializationController::class, 'show'])->name('show');
-                 Route::get('specializations/edit/{id}', [DoctorSpecializationController::class, 'edit'])->name('specializations.edit');
-                 Route::put('specializations/update/{id}', [DoctorSpecializationController::class, 'update'])->name('specializations.update');
-                 Route::delete('specializations/delete/{id}', [DoctorSpecializationController::class, 'destroy'])->name('specializations.delete');
-        });
+                Route::prefix('specializations')->name('specializations')->group(function () {
+                    Route::get('/', [DoctorSpecializationController::class, 'index'])->name('.index');
+                    Route::get('/create', [DoctorSpecializationController::class, 'create'])->name('.create');
+                    Route::post('/store', [DoctorSpecializationController::class, 'store'])->name('.store');
+                    // Route::get('/show/{id}', [DoctorSpecializationController::class, 'show'])->name('show');
+                    Route::get('/edit/{id}', [DoctorSpecializationController::class, 'edit'])->name('.edit');
+                    Route::put('/update/{id}', [DoctorSpecializationController::class, 'update'])->name('.update');
+                    Route::delete('/delete/{id}', [DoctorSpecializationController::class, 'destroy'])->name('.delete');
+                });
+
+                 // });
 
         // Doctor Role Routes
         // Route::middleware([RoleMiddleware::class . ':doctor'])->group(function () {
@@ -107,7 +116,7 @@ Route::group(['middleware' => 'auth'], function () {
         //      Route::get('/store-appointment', [PatientController::class, 'storeAppointment'])->name('.store-appointment');
         // });
 
-});
+// });
 
 
 

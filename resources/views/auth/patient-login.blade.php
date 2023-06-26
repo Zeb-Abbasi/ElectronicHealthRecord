@@ -54,7 +54,7 @@
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             var formData = $('.patientLoginForm').serialize();
             $.ajax({
-                url: "{{ route('patientLoginForm') }}",
+                url: "{{ route('login') }}",
                 type: 'POST',
                 data: formData,
                 headers: {

@@ -4,8 +4,8 @@
 
 @section('content')
 
-    <h3 class="mb-5 text-success">EHR | Admin Login</h3>
-    <form class="adminLoginForm" method="POST">
+    <h3 class="mb-5 text-success">EHR | Login</h3>
+    <form class="loginForm" method="POST">
         @csrf
         <div class="invalid-error alert alert-danger d-none">
 
@@ -30,7 +30,7 @@
             </label>
         </div>
 
-        <button id="adminLogin" class="btn btn-primary btn-lg btn-block btn-success" type="submit">Login</button>
+        <button id="login" class="btn btn-primary btn-lg btn-block btn-success" type="submit">Login</button>
 
     </form>
     <hr class="my-4">
@@ -43,12 +43,12 @@
 
 @section('scripts')
     <script>
-        $('#adminLogin').click(function(e) {
+        $('#login').click(function(e) {
             e.preventDefault();
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
-            var formData = $('.adminLoginForm').serialize();
+            var formData = $('.loginForm').serialize();
             $.ajax({
-                url: "{{ route('adminLogin') }}",
+                url: "{{ route('login') }}",
                 type: 'POST',
                 data: formData,
                 headers: {
