@@ -15,12 +15,13 @@ class CheckGuardMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle($request, Closure $next, $guard)
+    public function handle($request, Closure $next, ...$guards)
     {
-        if (Auth::guard($guard)->check()) {
-            return $next($request);
-        } else {
-            return response()->json(['You dont have permission to access this page']);
+        foreach ($guards as $guard) {
+            if (Auth::guard($guard)->check()) {
+                return $next($request);
+            }
         }
+        return response()->json(['You dont have permission to access this page']);
     }
 }

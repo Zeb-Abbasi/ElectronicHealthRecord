@@ -73,6 +73,8 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'
                     Route::get('/edit/{id}', [PatientController::class, 'edit'])->name('.edit');
                     Route::put('/update/{id}', [PatientController::class, 'update'])->name('.update');
                     Route::delete('/delete/{id}', [PatientController::class, 'destroy'])->name('.delete');
+                    Route::get('/create-appointment', [PatientController::class, 'bookAppointment'])->name('.book-appointment')->middleware(['check.guard:patient,admin']);
+                    Route::get('/store-appointment', [PatientController::class, 'storeAppointment'])->name('.store-appointment')->middleware('check.guard:patient');
                 });
                 //  Doctor Specialization Routes
 
