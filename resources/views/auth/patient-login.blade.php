@@ -38,8 +38,8 @@
     <hr class="my-4">
 
     <div class="text-center">
-        <p class="text-secondary">Don't have an account yet? <a class="text-success" href="{{ route('patient-register') }}">
-                Create an account</a></p>
+        {{-- <p class="text-secondary">Don't have an account yet? <a class="text-success" href="{{ route('patient-register') }}">
+                Create an account</a></p> --}}
     </div>
     <div class="copyright text-secondary text-center">
         &copy; <span class="current-year"></span><span class="text-bold text-uppercase"> EHR</span>. <span>All rights
@@ -54,7 +54,7 @@
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             var formData = $('.patientLoginForm').serialize();
             $.ajax({
-                url: "{{ route('login') }}",
+                url: "{{ route('patientLoginForm') }}",
                 type: 'POST',
                 data: formData,
                 headers: {

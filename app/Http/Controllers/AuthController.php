@@ -19,7 +19,7 @@ class AuthController extends Controller
     {
         $user = Auth::user();
         if (Auth::check() && $user->role->name === 'admin') {
-            return redirect()->route('dashboard')->with('user',$user);
+            return redirect()->route('dashboard')->with('user', $user);
         } else {
             return view('auth.admin-login');
         }
@@ -29,7 +29,7 @@ class AuthController extends Controller
     {
         $user = Auth::user();
         if (Auth::check() && $user->role->name === 'doctor') {
-            return redirect()->route('dashboard')->with('user',$user);
+            return redirect()->route('dashboard')->with('user', $user);
         } else {
             return view('auth.doctor-login');
         }
@@ -39,7 +39,7 @@ class AuthController extends Controller
     {
         $user = Auth::user();
         if (Auth::check() && $user->role->name === 'patient') {
-            return redirect()->route('dashboard')->with('user',$user);
+            return redirect()->route('dashboard')->with('user', $user);
         } else {
             return view('auth.patient-login');
         }
@@ -73,10 +73,12 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::guard('admin')->attempt($credentials)) {
             $user = User::where('email', $request->email)->first();
-            Auth::login($user);
-            return redirect()->route('dashboard')->with('success', 'Login successful.');
+            if ($user && Hash::check($request->password, $user->password)) {
+                Auth::login($user);
+                return redirect()->route('dashboard')->with('success', 'Login successful.');
+            }
         }
 
         return response()->json([
@@ -101,10 +103,12 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::guard('doctor')->attempt($credentials)) {
             $user = Doctor::where('email', $request->email)->first();
-            Auth::login($user);
-            return redirect()->route('dashboard')->with('success', 'Login successful.');
+            if ($user && Hash::check($request->password, $user->password)) {
+                Auth::login($user);
+                return redirect()->route('dashboard')->with('success', 'Login successful.');
+            }
         }
 
         return response()->json([
@@ -129,10 +133,12 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::guard('patient')->attempt($credentials)) {
             $user = Patient::where('email', $request->email)->first();
-            Auth::login($user);
-            return redirect()->route('dashboard')->with('success', 'Login successful.');
+            if ($user && Hash::check($request->password, $user->password)) {
+                Auth::login($user);
+                return redirect()->route('dashboard')->with('success', 'Login successful.');
+            }
         }
 
         return response()->json([
@@ -147,17 +153,14 @@ class AuthController extends Controller
         $user = Auth::user();
 
         if ($user->role->name == 'doctor') {
-                Doctor::where('id', $user->id)->get();
-                return response()->json(['status' => true, 'message' => 'Profile has been fetched successfully!', 'data' => []]);
-        }
-        else if ($user->role->name == 'patient') {
-                Patient::where('id', $user->id)->get();
-                return response()->json(['status' => true, 'message' => 'Profle has been fetched successfully!', 'data' => []]);
-        }
-        else {
+            Doctor::where('id', $user->id)->get();
+            return response()->json(['status' => true, 'message' => 'Profile has been fetched successfully!', 'data' => []]);
+        } else if ($user->role->name == 'patient') {
+            Patient::where('id', $user->id)->get();
+            return response()->json(['status' => true, 'message' => 'Profle has been fetched successfully!', 'data' => []]);
+        } else {
             return response()->json(['status' => false, 'message' => 'Profile not correct!', 'data' => []]);
         }
-
     }
 
     public function changePassword(Request $request)
@@ -182,21 +185,17 @@ class AuthController extends Controller
         $status = Hash::check($request->old_password, $user->password);
 
         if ($status && $user->role->name == 'admin') {
-                User::where('id', $user->id)->update(['password' => Hash::make($request->password)]);
-                return response()->json(['status' => true, 'message' => 'Password has been updated successfully!', 'data' => []]);
-        }
-        else if ($status && $user->role->name == 'doctor') {
-                Doctor::where('id', $user->id)->update(['password' => Hash::make($request->password)]);
-                return response()->json(['status' => true, 'message' => 'Password has been updated successfully!', 'data' => []]);
-        }
-        else if ($status && $user->role->name == 'patient') {
-                Patient::where('id', $user->id)->update(['password' => Hash::make($request->password)]);
-                return response()->json(['status' => true, 'message' => 'Password has been updated successfully!', 'data' => []]);
-        }
-        else {
+            User::where('id', $user->id)->update(['password' => Hash::make($request->password)]);
+            return response()->json(['status' => true, 'message' => 'Password has been updated successfully!', 'data' => []]);
+        } else if ($status && $user->role->name == 'doctor') {
+            Doctor::where('id', $user->id)->update(['password' => Hash::make($request->password)]);
+            return response()->json(['status' => true, 'message' => 'Password has been updated successfully!', 'data' => []]);
+        } else if ($status && $user->role->name == 'patient') {
+            Patient::where('id', $user->id)->update(['password' => Hash::make($request->password)]);
+            return response()->json(['status' => true, 'message' => 'Password has been updated successfully!', 'data' => []]);
+        } else {
             return response()->json(['status' => false, 'message' => 'Old password not correct!', 'data' => []]);
         }
-
     }
 
     // public function adminLogin(Request $request)

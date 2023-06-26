@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
     public function index(){
+
         // $admin = Auth::guard('admin')->user();
         // $doctor = Auth::guard('doctor')->user();
         // $patient = Auth::guard('patient')->user();
@@ -19,7 +20,8 @@ class DashboardController extends Controller
         //     return view('dashboard',compact('patient'));
         // }
         // $user = Auth::user();
-        if(Auth::user()) {
+        
+        if (Auth::guard('doctor') || Auth::guard('patient') || Auth::guard('admin')) {
             return view('dashboard');
         } else {
             return redirect('/');

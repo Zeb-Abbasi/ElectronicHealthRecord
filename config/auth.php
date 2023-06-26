@@ -40,20 +40,20 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        // 'admin' => [
-        //     'driver' => 'session',
-        //     'provider' => 'admins',
-        // ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
 
-        // 'patient' => [
-        //     'driver' => 'session',
-        //     'provider' => 'patients',
-        // ],
+        'patient' => [
+            'driver' => 'session',
+            'provider' => 'patients',
+        ],
 
-        // 'doctor' => [
-        //     'driver' => 'session',
-        //     'provider' => 'doctors',
-        // ],
+        'doctor' => [
+            'driver' => 'session',
+            'provider' => 'doctors',
+        ],
     ],
 
     /*
@@ -78,20 +78,20 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-        // 'admins' => [
-        //     'driver' => 'eloquent',
-        //     'model' => App\Models\User::class,
-        // ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ],
 
-        // 'patients' => [
-        //     'driver' => 'eloquent',
-        //     'model' => App\Models\Patient::class,
-        // ],
+        'patients' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Patient::class,
+        ],
 
-        // 'doctors' => [
-        //     'driver' => 'eloquent',
-        //     'model' => App\Models\Doctor::class,
-        // ],
+        'doctors' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Doctor::class,
+        ],
 
         // 'users' => [
         //     'driver' => 'database',

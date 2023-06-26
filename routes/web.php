@@ -37,11 +37,12 @@ Route::post('/doctor/login', [AuthController::class, 'doctorLogin'])->name('doct
 
 Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('forgot-password');
 Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword']);
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
 Route::group(['middleware' => 'auth'], function () {
 
     Route::post('change-password', [AuthController::class, 'changePassword']);
     Route::get('profile', [AuthController::class, 'getProfile']);
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     // Route::Get('appointment-history', [DashboardController::class, 'appointmentHistory'])->name('bookAppointment');
     // Route::Get('medical-history', [DashboardController::class, ''])->name('medicalHistory');
 
@@ -59,13 +60,13 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::delete('doctors/delete/{id}', [DoctorController::class, 'destroy'])->name('doctors.delete');
 
                  //Patients Routes
-                 Route::get('patients/', [DoctorController::class, 'index'])->name('patients.index');
-                 Route::get('patients/create', [DoctorController::class, 'create'])->name('patients.create');
-                 Route::post('patients/store', [DoctorController::class, 'store'])->name('patients.store');
-                 Route::get('patients/show/{id}', [DoctorController::class, 'show'])->name('patients.show');
-                 Route::get('patients/edit/{id}', [DoctorController::class, 'edit'])->name('patients.edit');
-                 Route::put('patients/update/{id}', [DoctorController::class, 'update'])->name('patients.update');
-                 Route::delete('patients/delete/{id}', [DoctorController::class, 'destroy'])->name('patients.delete');
+                 Route::get('patients/', [PatientController::class, 'index'])->name('patients.index');
+                 Route::get('patients/create', [PatientController::class, 'create'])->name('patients.create');
+                 Route::post('patients/store', [PatientController::class, 'store'])->name('patients.store');
+                 Route::get('patients/show/{id}', [PatientController::class, 'show'])->name('patients.show');
+                 Route::get('patients/edit/{id}', [PatientController::class, 'edit'])->name('patients.edit');
+                 Route::put('patients/update/{id}', [PatientController::class, 'update'])->name('patients.update');
+                 Route::delete('patients/delete/{id}', [PatientController::class, 'destroy'])->name('patients.delete');
 
                 //  Doctor Specialization Routes
 
