@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Doctor;
 use App\Models\DoctorSpecialization;
+use App\Models\Role;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -71,7 +72,8 @@ class DoctorController extends Controller
 
         $doctor = new Doctor($request->all());
         $doctor->password = Hash::make($request->password);
-        $doctor->role_id = 2;
+        // $doctor->role_id = 2;
+        $doctor->role_id  = Role::where('name', 'doctor')->value('id');
         $doctor->save();
         // toastr()->success('Data has been saved successfully!');
         return response()->json([
@@ -122,14 +124,14 @@ class DoctorController extends Controller
             'fees' => 'required|integer',
             'specialization' => 'required'
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json([
                 'error' => true,
                 'validation_errors' => $validator->errors(),
             ]);
         }
-    
+
         $doctor = Doctor::findOrFail($id);
         $doctor->name = $request->input('name');
         $doctor->email = $request->input('email');
@@ -137,9 +139,10 @@ class DoctorController extends Controller
         $doctor->address = $request->input('address');
         $doctor->contact_no = $request->input('contact_no');
         $doctor->specialization = $request->input('specialization');
-        $doctor->role_id = 2;
+        // $doctor->role_id = 2;
+        $doctor->role_id  = Role::where('name', 'doctor')->value('id');
         $doctor->save();
-    
+
         return response()->json([
             'success' => true,
             'message' => 'Doctor has been created successfully!',
