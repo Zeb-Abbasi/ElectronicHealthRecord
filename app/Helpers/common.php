@@ -3,21 +3,19 @@
 use Illuminate\Support\Facades\Auth;
 
 if(!function_exists('checkGuard')) {
+    $guard = null;
     function checkGuard($guard)
         {
             switch ($guard) {
-                case Auth::guard('admin')->check():
-                    $guard = 'admin';
+                case ('admin'):
+                    return  Auth::guard('admin')->check();
                     break;
-                case Auth::guard('doctor')->check():
-                    $guard = 'doctor';
+                case ('doctor'):
+                    return  Auth::guard('doctor')->check();
                     break;
-                case Auth::guard('patient')->check():
-                    $guard = 'patient';
-                break;
-                default:
-                $guard =  'admin';
-                return $guard;
+                case ('patient'):
+                    return  Auth::guard('patient')->check();
+                    break;
             }
         }
 }
