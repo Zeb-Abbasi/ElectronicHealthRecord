@@ -31,7 +31,11 @@ class PatientController extends Controller
         // ->paginate($request->perPage);
         $patients = Patient::all();
         if ($patients) {
-            return view('admin.patients.index', compact('patients'));
+            if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
+                return view('admin.patients.index', compact('patients'));
+            } else {
+                return redirect('/');
+            }
         }
     }
 
@@ -39,7 +43,11 @@ class PatientController extends Controller
     public function create()
     {
         $doctors =  Doctor::all();
-        return view('admin.patients.patient', compact('doctors'));
+        if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
+            return view('admin.patients.patient', compact('doctors'));
+        } else {
+            return redirect('/');
+        }
     }
 
 
@@ -74,7 +82,11 @@ class PatientController extends Controller
     {
         $patient = Patient::getRecordById($id);
         if ($patient) {
-            return view('admin.patients.show', compact('patient'));
+            if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
+                return view('admin.patients.show', compact('patient'));
+            } else {
+                return redirect('/');
+            }
         }
     }
 
@@ -83,7 +95,11 @@ class PatientController extends Controller
     {
         $patient = Patient::getRecordById($id);
         $doctors = Doctor::all();
-        return view('admin.patients.patient', compact('patient', 'doctors'));
+        if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
+            return view('admin.patients.patient', compact('patient', 'doctors'));
+        } else {
+            return redirect('/');
+        }
     }
 
 

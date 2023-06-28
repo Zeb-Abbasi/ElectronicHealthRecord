@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
     public function index(){
-        if (Auth::guard('doctor')->check() || Auth::guard('patient')->check() || Auth::guard('admin')->check()) {
+        if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
             return view('dashboard');
         } else {
             return redirect('/');

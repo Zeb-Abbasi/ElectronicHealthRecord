@@ -22,6 +22,6 @@ class CheckGuardMiddleware
                 return $next($request);
             }
         }
-        return response()->json(['You dont have permission to access this page']);
+            return redirect()->route('dashboard');
     }
 }
