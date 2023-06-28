@@ -73,7 +73,9 @@ class AuthController extends Controller
     {
         return view('auth.reset-password');
     }
-
+    public function viewChangePassword(){
+        return view('update-password');
+    }
     public function changePassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
