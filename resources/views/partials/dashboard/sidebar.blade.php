@@ -5,7 +5,7 @@
     </div>
 
 
-    <a class="list-group-item list-group-item-action list-group-item-light p-3 " href="">
+    <a class="list-group-item list-group-item-action list-group-item-light p-3 " href="{{ route('dashboard') }}">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door"
             viewBox="0 0 16 16">
             <path
@@ -14,7 +14,9 @@
         <span class="ms-2">Dashboard<span>
     </a>
 
-    @if (Auth::guard('admin')->check())
+        {{-- For Admin --}}
+    @if (Auth::user()->role_id == 1)
+    {{-- @if (Auth::user()->hasRole('admin')) --}}
         <div class="list-group list-group-flush">
             <div class="d-flex">
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" data-bs-toggle="collapse"
@@ -24,7 +26,7 @@
                         <path
                             d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
                     </svg>
-                    <span class="ms-2">Doctors<span>
+                    <span class="ms-2">Doctors-admin<span>
                 </a>
             </div>
 
@@ -69,8 +71,8 @@
 
 
 
-
-    @elseif (Auth::guard('doctor')->check())
+        {{-- For Doctor --}}
+    @elseif (Auth::user()->role_id == 2)
         <div class="list-group list-group-flush">
 
             <a class="list-group-item list-group-item-action list-group-item-light p-3"
@@ -94,18 +96,8 @@
             {{-- @endif --}}
 
         </div>
-
-
-
-
-
-
-
-        {{-- @endif --}}
-        {{-- @if ($user->role_id == 3) --}}
-
-        {{-- @if (auth()->user()->role->name == 'patient') --}}
-    @elseif(Auth::guard('patient')->check())
+        {{-- For Pateint --}}
+    @elseif(Auth::user()->role_id == 3)
     <div class="list-group list-group-flush">
         <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

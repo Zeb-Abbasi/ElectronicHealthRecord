@@ -15,14 +15,14 @@ class RoleMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle($request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, $role)
     {
         $user = Auth::user();
-        if ($user->role->name === $role) {
-            return $next($request);
-        } else {
-            return response()->json(['You dont have permission to access this page']);
+
+        if (!$user || !$user->hasRole($role)) {
+            abort(403, 'Unauthorized');
         }
 
+        return $next($request);
     }
 }

@@ -29,7 +29,7 @@
             <div class="form-group mt-3">
                 <label for="doctor_name">Doctor Name</label>
                 <input type="text" class="form-control mt-1" id="doctor_name" name="name"
-                    value="{{ $doctor->name ?? '' }}" required>
+                    value="{{ $doctor->user->name ?? '' }}" required>
                 <span id="name_error" class="error-message"></span>
             </div>
 
@@ -57,7 +57,7 @@
             <div class="form-group mt-3">
                 <label for="email">Doctor Email</label>
                 <input type="email" class="form-control mt-1" id="email" name="email"
-                    value="{{ $doctor->email ?? '' }}" required>
+                    value="{{ $doctor->user->email ?? '' }}" required>
                 <span id="email_error" class="error-message"></span>
             </div>
             @if (!isset($doctor))

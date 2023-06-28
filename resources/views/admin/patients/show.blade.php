@@ -26,9 +26,9 @@
                         <tbody>
                             <tr>
                                 <th class="text-secondary">Patient Name</th>
-                                <td>{{ $patient->name }}</td>
+                                <td>{{ $patient->user->name }}</td>
                                 <th class="text-secondary">Patient Email</th>
-                                <td>{{ $patient->email }}</td>
+                                <td>{{ $patient->user->email }}</td>
                             </tr>
                             <tr>
                                 <th class="text-secondary">Patient Mobile Number</th>

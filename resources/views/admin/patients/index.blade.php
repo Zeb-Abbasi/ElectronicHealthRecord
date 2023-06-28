@@ -25,8 +25,8 @@
                 <tbody>
                     @foreach ($patients as $patient)
                         <tr>
-                            <td>{{ $patient->name }}</td>
-                            <td>{{ $patient->email }}</td>
+                            <td>{{ $patient->user->name }}</td>
+                            <td>{{ $patient->user->email }}</td>
                             <td>{{ $patient->contact_no }}</td>
                             <td>{{ $patient->gender }}</td>
                             <td>{{ $patient->address }}</td>

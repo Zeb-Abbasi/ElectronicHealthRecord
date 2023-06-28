@@ -12,11 +12,11 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        @if (Auth::guard('admin')->check())
-                        @elseif (Auth::guard('doctor')->check())
-                        <a class="dropdown-item"  href="{{ route('doctors.edit', ['id' => Auth::guard('doctor')->id()]) }}">Profile</a>
-                        @elseif (Auth::guard('patient')->check())
-                        <a class="dropdown-item"  href="{{ route('patients.edit', ['id' => Auth::guard('patient')->id()]) }}">Profile</a>
+                        @if (Auth::user()->role_id == 1)
+                        @elseif (Auth::user()->role_id == 2)
+                        <a class="dropdown-item"  href="{{ route('doctors.edit', ['id' => Auth::user()->id]) }}">Profile</a>
+                        @elseif (Auth::user()->role_id == 3)
+                        <a class="dropdown-item"  href="{{ route('patients.edit', ['id' => Auth::user()->id]) }}">Profile</a>
                         @endif
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('change-password-view') }}">Change Password</a>

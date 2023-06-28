@@ -5,20 +5,21 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $guard = 'admin';
+    // protected $guard = 'admin';
     protected $fillable = [
         'name',
         'email',
@@ -45,8 +46,26 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-        public function role()
-    {
-        return $this->belongsTo(Role::class);
-    }
+        public function roles()
+        {
+            return $this->belongsToMany(Role::class);
+        }
+
+        public function hasRole($roles)
+        {
+            if (is_array($roles)) {
+                return $this->roles()->whereIn('name', $roles)->get();
+            }
+            return $this->roles()->where('name', $roles)->get();
+        }
+
+        public function doctors(): HasMany
+        {
+            return $this->hasMany(Doctor::class);
+        }
+
+        public function patients(): HasMany
+        {
+            return $this->hasMany(Patient::class);
+        }
 }

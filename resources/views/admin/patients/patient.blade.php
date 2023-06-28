@@ -20,8 +20,8 @@
                     <option value="">Select Doctor</option>
                     @foreach ($doctors as $doctor)
                         <option value="{{ $doctor->id }}"
-                            {{ isset($doctor) && $doctor->name == $doctor->name ? 'selected' : '' }}>
-                            {{ $doctor->name }}
+                            {{ isset($doctor) && $doctor->user->name == $doctor->user->name ? 'selected' : '' }}>
+                            {{ $doctor->user->name }}
                         </option>
                     @endforeach
                 </select>
@@ -31,13 +31,13 @@
             <div class="form-group mt-3">
                 <label for="patient">Name</label>
                 <input type="text" class="form-control mt-1" id="name" name="name"
-                    value="{{ $patient->name ?? '' }}" required>
+                    value="{{ $patient->user->name ?? '' }}" required>
                 <span id="name_error" class="error-message"></span>
             </div>
             <div class="form-group mt-3">
                 <label for="email">Email</label>
                 <input type="email" class="form-control mt-1" id="email" name="email"
-                    value="{{ $patient->email ?? '' }}" required>
+                    value="{{ $patient->user->email ?? '' }}" required>
                 <span id="email_error" class="error-message"></span>
             </div>
             <div class="form-group mt-3">

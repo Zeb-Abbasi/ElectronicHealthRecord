@@ -9,12 +9,9 @@ use Illuminate\Notifications\Notifiable;
 class Patient extends Authenticatable
 {
     use HasFactory;
-    protected $guard = 'patient';
+    // protected $guard = 'patient';
     protected $fillable = [
-        'name',
         'doctor_id',
-        'email',
-        'password',
         'contact_no',
         'address',
         'gender',
@@ -32,6 +29,11 @@ class Patient extends Authenticatable
     public function appointments()
     {
         return $this->hasMany(Appointment::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public static function getRecordById($id)

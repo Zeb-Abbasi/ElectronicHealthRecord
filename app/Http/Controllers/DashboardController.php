@@ -12,19 +12,21 @@ use Dompdf\Options;
 class DashboardController extends Controller
 {
     public function index(){
-        if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
-            return view('dashboard');
-        } else {
-            return redirect('/');
-        }
+        // if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
+        //     return view('dashboard');
+        // } else {
+        //     return redirect('/');
+        // }
+        return view('dashboard');
     }
     public function getAppointments(){
         $appointments = Appointment::with('doctor', 'patient')->get();
-        if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
-            return view('appointments', compact('appointments'));
-        } else {
-            return redirect('/');
-        }
+        // if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
+        //     return view('appointments', compact('appointments'));
+        // } else {
+        //     return redirect('/');
+        // }
+        return view('appointments', compact('appointments'));
     }
 
     public function showReportForm(Request $request)

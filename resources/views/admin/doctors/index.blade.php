@@ -23,8 +23,8 @@
                 <tbody>
                     @foreach ($doctors as $doctor)
                         <tr>
-                            <td>{{ $doctor->name }}</td>
-                            <td>{{ $doctor->email }}</td>
+                            <td>{{ $doctor->user->name }}</td>
+                            <td>{{ $doctor->user->email }}</td>
                             <td>{{ $doctor->fees }}</td>
                             <td>{{ $doctor->specialization }}</td>
                             <td>{{ $doctor->contact_no }}</td>

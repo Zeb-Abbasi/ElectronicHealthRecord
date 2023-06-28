@@ -8,6 +8,7 @@ use App\Models\DoctorSpecialization;
 use App\Models\MedicalHistory;
 use App\Models\Patient;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -31,24 +32,14 @@ class PatientController extends Controller
         // })
         // ->paginate($request->perPage);
         $patients = Patient::all();
-        if ($patients) {
-            if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
-                return view('admin.patients.index', compact('patients'));
-            } else {
-                return redirect('/');
-            }
-        }
+        return view('admin.patients.index', compact('patients'));
     }
 
 
     public function create()
     {
         $doctors =  Doctor::all();
-        if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
-            return view('admin.patients.patient', compact('doctors'));
-        } else {
-            return redirect('/');
-        }
+        return view('admin.patients.patient', compact('doctors'));
     }
 
 
@@ -57,7 +48,7 @@ class PatientController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
-            'email' => 'required|email|unique:patients',
+            'email' => 'required|email|unique:users',
             'password' => 'required|string|min:8',
             'confirm_password' => 'required|min:8|same:password',
         ]);
@@ -67,10 +58,17 @@ class PatientController extends Controller
                 'validation_errors' => $validator->errors(),
             ]);
         }
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role_id' => 3, // Assuming role ID 2 represents doctors
+        ]);
+
         $patient = new Patient($request->all());
-        $patient->password = Hash::make($request->password);
-        // $patient->role_id = 3;
-        $patient->role_id  = Role::where('name', 'patient')->value('id');
+        $patient->user_id = $user->id;
+        // $patient->role_id  = Role::where('name', 'patient')->value('id');
         $patient->image = $request->has('image') ? $this->uploadImage($request, 'image') : null;
         $patient->save();
         return response()->json([
@@ -84,11 +82,7 @@ class PatientController extends Controller
         $patient = Patient::getRecordById($id);
         $medicalHistory = MedicalHistory::where('patient_id',$id)->get();
         if ($patient) {
-            if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
-                return view('admin.patients.show', compact('patient','medicalHistory'));
-            } else {
-                return redirect('/');
-            }
+            return view('admin.patients.show', compact('patient','medicalHistory'));
         }
     }
 
@@ -97,19 +91,17 @@ class PatientController extends Controller
     {
         $patient = Patient::getRecordById($id);
         $doctors = Doctor::all();
-        if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
-            return view('admin.patients.patient', compact('patient', 'doctors'));
-        } else {
-            return redirect('/');
-        }
+        return view('admin.patients.patient', compact('patient', 'doctors'));
     }
 
 
     public function update(Request $request, $id)
     {
+        $patient = Patient::findOrFail($id);
+        $user = $patient->user;
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email,' . $user->id,
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -117,17 +109,22 @@ class PatientController extends Controller
                 'validation_errors' => $validator->errors(),
             ]);
         }
-        $patient = Patient::findOrFail($id);
+
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->role_id = 3;
+        $user->save();
+
+
         // $doctor = Doctor::findOrFail($id);
-        $patient->name = $request->input('name');
-        $patient->email = $request->input('email');
         $patient->gender = $request->input('gender');
         $patient->address = $request->input('address');
         $patient->contact_no = $request->input('contact_no');
         $patient->age = $request->input('age');
         $patient->med_his = $request->input('med_his');
-        // $patient->role_id = 3;
-        $patient->role_id  = Role::where('name', 'patient')->value('id');
+        $patient->user_id = $user->id;
+
+        // $patient->role_id  = Role::where('name', 'patient')->value('id');
 
         if ($request->has('image')) {
             $patient->image = $this->uploadImage($request, 'image');
@@ -149,7 +146,12 @@ class PatientController extends Controller
     public function destroy($id)
     {
         $patient = Patient::getRecordById($id);
+
+        $user = $patient->user;
+        // Delete the doctor
         $patient->delete();
+        // Delete the associated user
+        $user->delete();
         return redirect()->route('patients.index')->with('success', 'Patient has been deleted successfully!');
     }
 

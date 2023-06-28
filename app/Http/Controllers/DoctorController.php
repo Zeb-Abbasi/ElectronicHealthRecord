@@ -7,6 +7,7 @@ use App\Models\Doctor;
 use App\Models\DoctorSpecialization;
 use App\Models\MedicalHistory;
 use App\Models\Role;
+use App\Models\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -59,7 +60,7 @@ class DoctorController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
-            'email' => 'required|email|unique:doctors',
+            'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
             'confirm_password' => 'required|min:8|same:password',
             'fees' => 'required|integer',
@@ -73,10 +74,16 @@ class DoctorController extends Controller
             ]);
         }
 
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role_id' => 2, // Assuming role ID 2 represents doctors
+        ]);
+
         $doctor = new Doctor($request->all());
-        $doctor->password = Hash::make($request->password);
-        // $doctor->role_id = 2;
-        $doctor->role_id  = Role::where('name', 'doctor')->value('id');
+        $doctor->user_id = $user->id;
+        // $doctor->role_id  = Role::where('name', 'doctor')->value('id');
         $doctor->save();
         // toastr()->success('Data has been saved successfully!');
         return response()->json([
@@ -121,9 +128,11 @@ class DoctorController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $doctor = Doctor::findOrFail($id);
+        $user = $doctor->user;
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email,' . $user->id,
             'fees' => 'required|integer',
             'specialization' => 'required'
         ]);
@@ -135,20 +144,22 @@ class DoctorController extends Controller
             ]);
         }
 
-        $doctor = Doctor::findOrFail($id);
-        $doctor->name = $request->input('name');
-        $doctor->email = $request->input('email');
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->role_id = 2;
+        $user->save();
+
         $doctor->fees = $request->input('fees');
         $doctor->address = $request->input('address');
         $doctor->contact_no = $request->input('contact_no');
         $doctor->specialization = $request->input('specialization');
-        // $doctor->role_id = 2;
-        $doctor->role_id  = Role::where('name', 'doctor')->value('id');
+        $doctor->user_id = $user->id;
+        // $doctor->role_id  = Role::where('name', 'doctor')->value('id');
         $doctor->save();
 
         return response()->json([
             'success' => true,
-            'message' => 'Doctor has been created successfully!',
+            'message' => 'Doctor has been updated successfully!',
         ]);
     }
 
@@ -161,7 +172,12 @@ class DoctorController extends Controller
     public function destroy($id)
     {
         $doctor = Doctor::getRecordById($id);
+        $user = $doctor->user;
+        // Delete the doctor
         $doctor->delete();
+        // Delete the associated user
+        $user->delete();
+
         return redirect()->route('doctors.index')->with('success', 'Doctor has been deleted successfully!');
     }
 
