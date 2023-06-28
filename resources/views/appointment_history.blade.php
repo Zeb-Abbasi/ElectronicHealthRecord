@@ -24,7 +24,7 @@
                 <tbody>
                     @foreach ($appointments as $appointment)
                         <tr>
-                            <td>{{ \App\Models\Doctor::where('specialization', $appointment->doctor_specialization)->pluck('name')->implode(', ') }}
+                            <td>{{ \App\Models\Doctor::where('id', $appointment->doctor_id)->pluck('name')->implode(', ') }}
                             </td>
                             <td>{{ $appointment->doctor_specialization }}</td>
                             <td>{{ $appointment->consultancy_fees }}</td>

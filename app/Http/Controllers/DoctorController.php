@@ -8,6 +8,7 @@ use App\Models\DoctorSpecialization;
 use App\Models\MedicalHistory;
 use App\Models\Role;
 use Brian2694\Toastr\Facades\Toastr;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -169,19 +170,21 @@ class DoctorController extends Controller
         $patientId = Auth::guard('doctor')->user()->id;
         $appointments = Appointment::where('doctor_id',$patientId)->with('doctor', 'patient')->get();
         // if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
-            return view('appointments', compact('appointments'));
+            return view('appointment_history', compact('appointments'));
         // } else {
             return redirect('/');
         // }
     }
 
     public function createMedicalHistory(Request $request) {
+        // dd('123');
+        // dd($request->discharge_date);
         $validator = Validator::make($request->all(), [
             'diagnosis' => 'required|string',
             'weight' => 'required|integer',
             'temperature' => 'required|integer',
-            'admission_date' => 'required|string',
-            'discharge_date' => 'required|string',
+            'admission_date' => 'required',
+            'discharge_date' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -193,8 +196,10 @@ class DoctorController extends Controller
 
         $medicalHistory = new MedicalHistory($request->all());
         // $doctor->role_id = 2;
-        $medicalHistory->doctor_id = Auth::guard('doctor')->user();
+        $medicalHistory->doctor_id = Auth::guard('doctor')->user()->id;
         $medicalHistory->patient_id = $request->patient_id;
+        $medicalHistory->admission_date = Carbon::createFromFormat('Y-m-d', $request->input('admission_date'));
+        $medicalHistory->discharge_date = Carbon::createFromFormat('Y-m-d', $request->input('discharge_date'));
         $medicalHistory->save();
         // toastr()->success('Data has been saved successfully!');
         return response()->json([

@@ -44,7 +44,7 @@ Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::middleware('check.guard:admin')->group( function () {
-    Route::get('/admin/appointments', [DashboardController::class, 'getAppointments'])->name('appointments');
+    Route::get('/admin/appointments', [DashboardController::class, 'getAppointments'])->name('admin-appointments');
     Route::get('/report-form', [DashboardController::class, 'showReportForm'])->name('report-form');
     Route::get('/all-reports', [DashboardController::class, 'getReports'])->name('.reports');
     Route::get('/report/{patientId}', [DashboardController::class, 'getSingleReport'])->name('.report');
@@ -73,7 +73,7 @@ Route::middleware('check.guard:admin')->group( function () {
                     Route::put('/update/{id}', [DoctorController::class, 'update'])->name('.update');
                     Route::delete('/delete/{id}', [DoctorController::class, 'destroy'])->name('.delete');
                     Route::get('/appointments', [DoctorController::class, 'getDoctorAppointments'])->name('.appointments');
-                    Route::get('/create-medical-history', [DoctorController::class, 'createMedicalHistory'])->name('.create-medical-history');
+                    Route::post('/create-medical-history', [DoctorController::class, 'createMedicalHistory'])->name('.create-medical-history');
                     // Route::get('/reports-form', [DoctorController::class, 'showDoctorReportsForm'])->name('.reports-form');
                     // Route::get('/reports', [DoctorController::class, 'getDoctorReports'])->name('.reports');
                 });
@@ -87,8 +87,10 @@ Route::middleware('check.guard:admin')->group( function () {
                     Route::put('/update/{id}', [PatientController::class, 'update'])->name('.update');
                     Route::delete('/delete/{id}', [PatientController::class, 'destroy'])->name('.delete');
                     Route::get('/create-appointment', [PatientController::class, 'bookAppointment'])->name('.book-appointment')->middleware(['check.guard:patient,admin']);
-                    Route::get('/store-appointment', [PatientController::class, 'storeAppointment'])->name('.store-appointment')->middleware('check.guard:patient');
-                    Route::get('/appointments', [PatientController::class, 'getPatientsAppointments'])->name('.appointments');
+                    Route::post('/store-appointment', [PatientController::class, 'storeAppointment'])->name('.store-appointment')->middleware('check.guard:patient');
+                    Route::get('/appointments', [PatientController::class, 'getPatientAppointments'])->name('.appointments');
+                    // Route::get('/medical-history', [PatientController::class, 'getPatientAppointments'])->name('.appointments');
+
                     // Route::get('/reports-form', [PatientController::class, 'showPatientReportsForm'])->name('.reports-form');
                     // Route::get('/reports', [PatientController::class, 'getPatientReports'])->name('.reports');
                 });

@@ -175,7 +175,7 @@ class PatientController extends Controller
             ]);
         }
         $appointment = new Appointment($request->all());
-        $appointment->patient_id = Auth::user()->id;
+        $appointment->patient_id = Auth::guard('patient')->user()->id;
         $appointment->save();
     }
 
@@ -183,7 +183,7 @@ class PatientController extends Controller
         $patientId = Auth::guard('patient')->user()->id;
         $appointments = Appointment::where('patient_id',$patientId)->with('doctor', 'patient')->get();
         // if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
-            return view('appointments', compact('appointments'));
+            return view('appointment_history', compact('appointments'));
         // } else {
             return redirect('/');
         // }
