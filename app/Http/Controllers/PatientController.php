@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\DoctorSpecialization;
+use App\Models\MedicalHistory;
 use App\Models\Patient;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -81,9 +82,10 @@ class PatientController extends Controller
     public function show($id)
     {
         $patient = Patient::getRecordById($id);
+        $medicalHistory = MedicalHistory::where('patient_id',$id)->get();
         if ($patient) {
             if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
-                return view('admin.patients.show', compact('patient'));
+                return view('admin.patients.show', compact('patient','medicalHistory'));
             } else {
                 return redirect('/');
             }
@@ -150,12 +152,7 @@ class PatientController extends Controller
         $patient->delete();
         return redirect()->route('patients.index')->with('success', 'Patient has been deleted successfully!');
     }
-    public function appointmentHistory(){
-        $appointments = Appointment::all();
-        if ($appointments) {
-            return view('patients.appointments.appointment_history', compact('appointments'));
-        }
-    }
+
     public function bookAppointment(){
         $doctors =  Doctor::all();
         $specializations = DoctorSpecialization::all();
@@ -180,6 +177,16 @@ class PatientController extends Controller
         $appointment = new Appointment($request->all());
         $appointment->patient_id = Auth::user()->id;
         $appointment->save();
+    }
+
+    public function getPatientAppointments(){
+        $patientId = Auth::guard('patient')->user()->id;
+        $appointments = Appointment::where('patient_id',$patientId)->with('doctor', 'patient')->get();
+        // if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
+            return view('appointments', compact('appointments'));
+        // } else {
+            return redirect('/');
+        // }
     }
 
     public function uploadImage(Request $request, $file_name)

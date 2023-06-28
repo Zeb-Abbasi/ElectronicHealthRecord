@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\DoctorSpecialization;
+use App\Models\MedicalHistory;
 use App\Models\Role;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -161,4 +164,60 @@ class DoctorController extends Controller
         $doctor->delete();
         return redirect()->route('doctors.index')->with('success', 'Doctor has been deleted successfully!');
     }
+
+    public function getDoctorAppointments(){
+        $patientId = Auth::guard('doctor')->user()->id;
+        $appointments = Appointment::where('doctor_id',$patientId)->with('doctor', 'patient')->get();
+        // if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
+            return view('appointments', compact('appointments'));
+        // } else {
+            return redirect('/');
+        // }
+    }
+
+    public function createMedicalHistory(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'diagnosis' => 'required|string',
+            'weight' => 'required|integer',
+            'temperature' => 'required|integer',
+            'admission_date' => 'required|string',
+            'discharge_date' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => true,
+                'validation_errors' => $validator->errors(),
+            ]);
+        }
+
+        $medicalHistory = new MedicalHistory($request->all());
+        // $doctor->role_id = 2;
+        $medicalHistory->doctor_id = Auth::guard('doctor')->user();
+        $medicalHistory->patient_id = $request->patient_id;
+        $medicalHistory->save();
+        // toastr()->success('Data has been saved successfully!');
+        return response()->json([
+            'success' => true,
+            'message' => 'Medical History has been created successfully!',
+        ]);
+    }
+
+    // public function showReportsForm(){
+    //     // if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
+    //     //     return view('appointments', compact('appointments'));
+    //     // } else {
+    //     //     return redirect('/');
+    //     // }
+    //     return view('reports');
+    // }
+
+    // public function getReports(){
+    //     // if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
+    //     //     return view('appointments', compact('appointments'));
+    //     // } else {
+    //     //     return redirect('/');
+    //     // }
+    //     return view('admin.reports');
+    // }
 }
