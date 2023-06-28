@@ -98,7 +98,10 @@ class AuthController extends Controller
                 User::where('id', $user->id)->update(['password' => Hash::make($request->password)]);
                 return response()->json(['status' => true, 'message' => 'Password has been updated successfully!', 'data' => []]);
             } else {
-                return response()->json(['status' => false, 'message' => 'Old password not correct!', 'data' => []]);
+                return response()->json([
+                    'error' => true,
+                    'message' => 'Old password not correct!',
+                ]); 
             }
 
         } else if (checkGuard('doctor')) {
@@ -108,7 +111,10 @@ class AuthController extends Controller
                 Doctor::where('id', $user->id)->update(['password' => Hash::make($request->password)]);
                 return response()->json(['status' => true, 'message' => 'Password has been updated successfully!', 'data' => []]);
             } else {
-                return response()->json(['status' => false, 'message' => 'Old password not correct!', 'data' => []]);
+                return response()->json([
+                    'error' => true,
+                    'message' => 'Old password not correct!',
+                ]);
             }
         } else if (checkGuard('patient')) {
             $user = Auth::guard('patient')->user();
@@ -117,7 +123,11 @@ class AuthController extends Controller
                 Patient::where('id', $user->id)->update(['password' => Hash::make($request->password)]);
                 return response()->json(['status' => true, 'message' => 'Password has been updated successfully!', 'data' => []]);
             } else {
-                return response()->json(['status' => false, 'message' => 'Old password not correct!', 'data' => []]);
+                return response()->json([
+                    'error' => true,
+                    'message' => 'Old password not correct!',
+                ]);
+    
             }
         }
     }

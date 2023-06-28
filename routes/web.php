@@ -44,8 +44,8 @@ Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // Route::group(['middleware' => 'auth'], function () {
-
-    Route::post('change-password', [AuthController::class, 'changePassword']);
+    Route::get('change-password-view', [AuthController::class, 'viewChangePassword'])->name('change-password-view');
+    Route::post('change-password', [AuthController::class, 'changePassword'])->name('change-password');
     Route::get('profile', [AuthController::class, 'getProfile']);
     // Route::Get('appointment-history', [DashboardController::class, 'appointmentHistory'])->name('bookAppointment');
     // Route::Get('medical-history', [DashboardController::class, ''])->name('medicalHistory');
