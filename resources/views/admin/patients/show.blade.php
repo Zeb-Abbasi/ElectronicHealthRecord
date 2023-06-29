@@ -68,11 +68,11 @@
                     <th>Visit Date</th>
                 </tr>
                 {{-- <th>{{ $patient->email }}</td> --}}
-                    @php
-                    $medical_histories = App\Models\MedicalHistory::where('patient_id', $patient->id)->where('doctor_id', Auth::guard('doctor')->user()->id )->get();
-                @endphp
-                @foreach ($medical_histories as $medical_history)
-                <tr>
+                    {{-- @php
+                    $medical_histories = App\Models\MedicalHistory::where('patient_id', $patient->id)->where('doctor_id', Auth::user()->id )->get();
+                @endphp --}}
+                @foreach ($medicalHistory as $medical_history)
+                <tr>                    
                     <td>{{ $medical_history->blood_pressure }}</td>
                     <td>{{ $medical_history->weight }}</td>
                     <td>{{ $medical_history->blood_sugar }}</td>
@@ -82,11 +82,14 @@
                 <tr>
                 @endforeach
                 
-
+                    
             </tbody>
         </table>
         <div class="text-center">
+            @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 3)
+            @elseif(Auth::user()->role_id == 2)   
             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#medicalModal">Add Medical History</button>
+            @endif
         </div>
     </div>
 

@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="page-heading p-4 bg-light">
-        <h2 class="text-success ">BOOK APPOINTMENT</h2>
+            <h2 class="text-success ">BOOK APPOINTMENT</h2>
     </div>
     <div class="container-fluid mt-3 mb-5">
         <form class="addDoctorForm" method="{{ isset($doctor) ? 'PUT' : 'POST' }}">
@@ -69,31 +69,32 @@
             var feesInput = $("#consultancy_fees");
 
             specializationSelect.on("change", function() {
-                var selectedSpecialization = specializationSelect.val();
-                doctorSelect.html('<option value="">Select Doctor</option>');
+            var selectedSpecialization = specializationSelect.val();
+            doctorSelect.html('<option value="">Select Doctor</option>');
 
-                var filteredDoctors = {!! json_encode($doctors) !!}.filter(function(doctor) {
-                    return doctor.specialization === selectedSpecialization;
-                });
-
-                filteredDoctors.forEach(function(doctor) {
-                    var option = $("<option></option>").attr("value", doctor.id).text(doctor.name);
-                    doctorSelect.append(option);
-                });
-
-                feesInput.val("");
+            var filteredDoctors = {!! json_encode($doctors) !!}.filter(function(doctor) {
+                return doctor.specialization === selectedSpecialization;
             });
 
-            doctorSelect.on("change", function() {
-                var selectedDoctorId = doctorSelect.val();
+            filteredDoctors.forEach(function(doctor) {
+    var option = $("<option></option>").attr("value", doctor.id).text(doctor.user.name); // Access the name property from the user object
+    doctorSelect.append(option);
+});
 
-                var selectedDoctor = {!! json_encode($doctors) !!}.find(function(doctor) {
-                    return doctor.id === parseInt(selectedDoctorId);
-                });
-
-                feesInput.val(selectedDoctor ? selectedDoctor.fees : "");
-            });
+            feesInput.val("");
         });
+
+        doctorSelect.on("change", function() {
+            var selectedDoctorId = doctorSelect.val();
+
+            var selectedDoctor = {!! json_encode($doctors) !!}.find(function(doctor) {
+                return doctor.id === parseInt(selectedDoctorId);
+            });
+
+            feesInput.val(selectedDoctor ? selectedDoctor.fees : "");
+        });
+    });
+
     </script>
     <script>
         $('#addApointment').click(function(e) {
@@ -121,7 +122,7 @@
                         }
                         toastr.success("dsfsdafadsfads");
                         setTimeout(function() {
-                            window.location.href = "{{ route('doctors.index') }}";
+                            window.location.href = "{{ route('patients.appointments') }}";
                         }, 3000);
                     }
                 },

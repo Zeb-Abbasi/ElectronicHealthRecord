@@ -11,13 +11,7 @@
                 <li class="nav-item active pe-3"><h3 class="fw-normal text-success">Electronic Health Record</h3></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        @if (Auth::guard('admin')->check())
-                        {{ Auth::guard('admin')->user()->username }}
-                        @elseif (Auth::guard('doctor')->check())
-                        {{Auth::guard('doctor')->user()->name}}
-                        @elseif (Auth::guard('patient')->check())
-                        {{Auth::guard('patient')->user()->name}}
-                        @endif
+                        {{Auth::user()->name}}
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         @if (Auth::user()->role_id == 1)

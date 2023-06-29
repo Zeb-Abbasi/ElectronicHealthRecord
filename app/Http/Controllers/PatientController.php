@@ -77,10 +77,14 @@ class PatientController extends Controller
         ]);
     }
 
-    public function show($id)
-    {
-        $patient = Patient::getRecordById($id);
-        $medicalHistory = MedicalHistory::where('patient_id',$id)->get();
+    public function show($id){
+        if(Auth::user()->role_id == 3){
+            $patient = Patient::where('user_id', $id)->first();
+        }
+        elseif(Auth::user()->role_id == 2 || Auth::user()->role_id == 1){
+            $patient = Patient::where('id', $id)->first();
+        }
+        $medicalHistory = MedicalHistory::where('patient_id',$patient->id)->get();
         if ($patient) {
             return view('admin.patients.show', compact('patient','medicalHistory'));
         }
@@ -89,7 +93,13 @@ class PatientController extends Controller
 
     public function edit($id)
     {
-        $patient = Patient::getRecordById($id);
+    if(Auth::user()->role_id == 3){
+        $patient = Patient::where('user_id', $id)->first();
+    }
+    elseif(Auth::user()->role_id == 2){
+        $patient = Patient::where('id', $id)->first();
+    }
+    
         $doctors = Doctor::all();
         return view('admin.patients.patient', compact('patient', 'doctors'));
     }
@@ -129,7 +139,7 @@ class PatientController extends Controller
         if ($request->has('image')) {
             $patient->image = $this->uploadImage($request, 'image');
         }
-        $patient->save();
+        $patient->save();   
 
         return response()->json([
             'success' => true,
@@ -156,7 +166,7 @@ class PatientController extends Controller
     }
 
     public function bookAppointment(){
-        $doctors =  Doctor::all();
+        $doctors =  Doctor::with('user')->get();
         $specializations = DoctorSpecialization::all();
         return view('patients.appointments.book_appointment', compact('doctors', 'specializations'));
     }
@@ -176,14 +186,16 @@ class PatientController extends Controller
                 'validation_errors' => $validator->errors(),
             ]);
         }
+        $patient =Patient::where('user_id',Auth::user()->id)->first();
         $appointment = new Appointment($request->all());
-        $appointment->patient_id = Auth::guard('patient')->user()->id;
+        $appointment->patient_id = $patient->id;
         $appointment->save();
     }
 
     public function getPatientAppointments(){
-        $patientId = Auth::guard('patient')->user()->id;
-        $appointments = Appointment::where('patient_id',$patientId)->with('doctor', 'patient')->get();
+        $patient = Patient::where('user_id',Auth::user()->id)->first();
+
+        $appointments = Appointment::where('patient_id',$patient->id)->get();
         // if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
             return view('appointment_history', compact('appointments'));
         // } else {

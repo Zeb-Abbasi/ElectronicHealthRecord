@@ -6,6 +6,7 @@ use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\DoctorSpecialization;
 use App\Models\MedicalHistory;
+use App\Models\Patient;
 use App\Models\Role;
 use App\Models\User;
 use Brian2694\Toastr\Facades\Toastr;
@@ -115,7 +116,12 @@ class DoctorController extends Controller
      */
     public function edit($id)
     {
-        $doctor = Doctor::getRecordById($id);
+        if(Auth::user()->role_id == 2){
+            $doctor = Doctor::where('user_id',Auth::user()->id)->first();
+        }
+        elseif(Auth::user()->role_id == 1 || Auth::user()->role_id == 3){
+            $doctor = Doctor::where('id', $id)->first();
+        }   
         $doctor_specializations = DoctorSpecialization::all();
         return view('admin.doctors.doctor', compact('doctor', 'doctor_specializations'));
     }
@@ -183,8 +189,10 @@ class DoctorController extends Controller
     }
 
     public function getDoctorAppointments(){
-        $patientId = Auth::guard('doctor')->user()->id;
-        $appointments = Appointment::where('doctor_id',$patientId)->with('doctor', 'patient')->get();
+        // $patientId = Auth::user()->id;
+        $doctor = Doctor::where('user_id',Auth::user()->id)->first();
+
+        $appointments = Appointment::where('doctor_id', $doctor->id)->get();
         // if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
             return view('appointment_history', compact('appointments'));
         // } else {
@@ -212,7 +220,8 @@ class DoctorController extends Controller
 
         $medicalHistory = new MedicalHistory($request->all());
         // $doctor->role_id = 2;
-        $medicalHistory->doctor_id = Auth::guard('doctor')->user()->id;
+        $doctor = Doctor::where('user_id',Auth::user()->id)->first();
+        $medicalHistory->doctor_id = $doctor->id;
         $medicalHistory->patient_id = $request->patient_id;
         $medicalHistory->admission_date = Carbon::createFromFormat('Y-m-d', $request->input('admission_date'));
         $medicalHistory->discharge_date = Carbon::createFromFormat('Y-m-d', $request->input('discharge_date'));

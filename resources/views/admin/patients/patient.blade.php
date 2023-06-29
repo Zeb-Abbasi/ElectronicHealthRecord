@@ -117,7 +117,6 @@
     <script>
         //////////////////////////////////////////////new code
 
-
         $(document).ready(function() {
             $('#image').change(function(e) {
                 var file = e.target.files[0];
@@ -139,7 +138,6 @@
                 event.preventDefault();
                 var formData = new FormData(this);
 
-                // Determine the URL based on the form action attribute
                 var route =
                     "{{ isset($patient) ? route('patients.update', $patient->id) : route('patients.store') }}";
 
@@ -162,7 +160,7 @@
                             }
                             toastr.success("dsfsdafadsfads");
                             setTimeout(function() {
-                                window.location.href = "{{ route('patients.index') }}";
+                                window.location.href = "{{ route('dashboard') }}";
                             }, 3000);
                         }
                     },

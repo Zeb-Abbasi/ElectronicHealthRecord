@@ -7,8 +7,10 @@
         <h2 class="text-success ">APPOINTMENTS HISTORY</h2>
     </div>
     <div class="container-fluid mt-3 mb-5">
-        <a href="{{ route('patients.book-appointment') }}"><button class="btn btn-success mb-2">Book Appointment</button></a>
-        <div class="table-responsive">
+        @if(Auth::user()->role_id == 3)
+            <a href="{{ route('patients.book-appointment') }}"><button class="btn btn-success mb-2">Book Appointment</button></a>
+        @endif
+            <div class="table-responsive">
             <table id="example" class="table table-striped nowrap" style="width:100%">
                 <thead>
                     <tr>
@@ -18,20 +20,22 @@
                         <th>Appointment Date / Time</th>
                         <th>Appointment Creation Date</th>
                         <th>Current Status</th>
-                        <th>Actions</th>
+                        {{-- <th>Actions</th> --}}
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($appointments as $appointment)
                         <tr>
-                            <td>{{ \App\Models\Doctor::where('id', $appointment->doctor_id)->pluck('name')->implode(', ') }}
+                            <td>@foreach(\App\Models\Doctor::whereIn('id', $appointment->pluck('doctor_id'))->get() as $doctor)
+                                {{ $doctor->user->name }}
+                            @endforeach
                             </td>
                             <td>{{ $appointment->doctor_specialization }}</td>
                             <td>{{ $appointment->consultancy_fees }}</td>
                             <td>{{ $appointment->appointment_date }} / {{ $appointment->appointment_time }}</td>
                             <td>{{ $appointment->created_at }}</td>
                             <td>{{ $appointment->age }}</td>
-                            <td>
+                            {{-- <td>
                                 <div class="d-flex">
                                     <div class="pe-2">
                                         <a href="">
@@ -72,7 +76,7 @@
                                     </div>
                                 </div>
 
-                            </td>
+                            </td> --}}
                         </tr>
                     @endforeach
                 </tbody>

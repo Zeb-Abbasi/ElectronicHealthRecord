@@ -3,38 +3,29 @@
 @section('title', 'Dashboard | Electronic Health Record')
 
 @section('content')
-@section('content')
     <div class="page-heading p-4 bg-light">
-        <h2 class="text-success">Change Password</h2>
+        <h2 class="text-success ">BETWEEN DATES | REPORTS</h2>
     </div>
     <div class="container-fluid mt-3 mb-5">
-        <form id="changePasswordForm" action="{{ route('change-password') }}"
-            method="POST" enctype="multipart/form-data">
+        <form id="dataForm" action="{{ route('reports') }}"
+            method="GET">
             @csrf
-            <div class="invalid-error alert alert-danger d-none"></div>
-                <div class="form-group mt-3">
-                    <label for="old_password">Old Password</label>
-                    <input type="password" class="form-control mt-1" id="old_password" name="old_password" required>
-                    <span id="old_password_error" class="error-message"></span>
-                </div>
-                <div class="form-group mt-3">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control mt-1" id="password" name="password" required>
-                    <span id="password_error" class="error-message"></span>
-                </div>
-
-                <div class="form-group mt-3">
-                    <label for="confirm_password">Confirm Password</label>
-                    <input type="password" class="form-control mt-1" id="confirm_password" name="confirm_password"
-                        required>
-                    <span id="confirm_password_error" class="error-message"></span>
-                </div>
-
+            <div class="form-group mb-3">
+                <label for="fromDate" class="form-label">From Date:</label>
+                <input type="date" class="form-control" id="fromDate" name="fromDate">
+                <span id="fromDate_error" class="error-message"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label for="toDate" class="form-label">To Date:</label>
+                <input type="date" class="form-control" id="toDate" name="toDate">
+                <span id="toDate_error" class="error-message"></span>
+            </div>
+            
 
 
 
             <button class="btn btn-primary btn-lg btn-block btn-success my-3" type="submit">
-                Update Password
+                {{ isset($patient) ? 'Update Patient' : 'Add Patient' }}
             </button>
 
         </form>
@@ -47,17 +38,32 @@
     <script>
         //////////////////////////////////////////////new code
 
-
         $(document).ready(function() {
+            $('#image').change(function(e) {
+                var file = e.target.files[0];
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#uploadedImage').attr('src', e.target.result);
+                    $('#uploadedImage').removeClass('d-none');
+                };
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                } else {
+                    $('#uploadedImage').addClass('d-none');
+                }
+            });
 
             // Form submit event
-            $('#changePasswordForm').on('submit', function(event) {
+            $('#dataForm').on('submit', function(event) {
                 event.preventDefault();
                 var formData = new FormData(this);
 
+                var route =
+                    "{{ isset($patient) ? route('patients.update', $patient->id) : route('patients.store') }}";
 
                 $.ajax({
-                    url: '{{route('change-password')}}',
+                    url: route,
                     type: 'POST',
                     data: formData,
                     processData: false,
@@ -100,6 +106,3 @@
         });
     </script>
 @endsection
-
-
-    @endsection

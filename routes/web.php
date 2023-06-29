@@ -37,8 +37,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('profile', [AuthController::class, 'getProfile']);
     Route::get('/admin/appointments', [DashboardController::class, 'getAppointments'])->name('admin-appointments');
     Route::get('/report-form', [DashboardController::class, 'showReportForm'])->name('report-form');
-    Route::get('/all-reports', [DashboardController::class, 'getReports'])->name('.reports');
-    Route::get('/report/{patientId}', [DashboardController::class, 'getSingleReport'])->name('.report');
+    Route::get('/all-reports', [DashboardController::class, 'getReports'])->name('reports');
+    Route::get('/report/{patientId}', [DashboardController::class, 'getSingleReport'])->name('report');
 
     //Doctors Routes
     Route::prefix('doctors')->name('doctors')->group(function () {
@@ -66,8 +66,8 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/update/{id}', [PatientController::class, 'update'])->name('.update');
         Route::delete('/delete/{id}', [PatientController::class, 'destroy'])->name('.delete');
         Route::get('/create-appointment', [PatientController::class, 'bookAppointment'])->name('.book-appointment');
-        Route::get('/store-appointment', [PatientController::class, 'storeAppointment'])->name('.store-appointment');
-        Route::get('/appointments', [PatientController::class, 'getPatientsAppointments'])->name('.appointments');
+        Route::post('/store-appointment', [PatientController::class, 'storeAppointment'])->name('.store-appointment');
+        Route::get('/appointments', [PatientController::class, 'getPatientAppointments'])->name('.appointments');
         // Route::get('/reports-form', [PatientController::class, 'showPatientReportsForm'])->name('.reports-form');
         // Route::get('/reports', [PatientController::class, 'getPatientReports'])->name('.reports');
     });
