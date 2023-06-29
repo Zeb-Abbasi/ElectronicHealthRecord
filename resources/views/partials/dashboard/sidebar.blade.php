@@ -81,7 +81,7 @@
             </svg>
             <span class="ms-2">Appointment History</span>
         </a>
-        <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">
+        <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{{ route('report-form') }}">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
                 <path
