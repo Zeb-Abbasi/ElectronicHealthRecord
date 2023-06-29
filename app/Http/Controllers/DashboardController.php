@@ -21,18 +21,14 @@ class DashboardController extends Controller
     }
     public function getAppointments(){
         $appointments = Appointment::with('doctor', 'patient')->get();
-        // if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
-        //     return view('appointments', compact('appointments'));
-        // } else {
-        //     return redirect('/');
-        // }
-        return view('appointments', compact('appointments'));
+            return view('appointment_history', compact('appointments'));
     }
 
     public function showReportForm(Request $request)
     {
         return view('reports-form');
     }
+
     public function getReports(Request $request)
     {
         $fromDate = $request->fromDate;
