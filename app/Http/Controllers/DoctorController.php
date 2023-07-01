@@ -178,7 +178,7 @@ class DoctorController extends Controller
      */
     public function destroy($id)
     {
-        $doctor = Doctor::getRecordById($id);
+        $doctor = Doctor::findOrFail($id);
         $user = $doctor->user;
         // Delete the doctor
         $doctor->delete();

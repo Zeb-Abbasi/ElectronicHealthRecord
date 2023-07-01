@@ -3,9 +3,9 @@
 @section('title', 'Dashboard | Electronic Health Record')
 
 @section('content')
-<div class="page-heading p-4 bg-light">
-    <h2 class="text-success ">{{ isset($specialization) ? 'EDIT' : 'ADD' }} DOCTOR SPECIALIZATION</h2>
-</div>
+    <div class="page-heading p-4 bg-light">
+        <h2 class="text-success ">{{ isset($specialization) ? 'EDIT' : 'ADD' }} DOCTOR SPECIALIZATION</h2>
+    </div>
     <div class="container-fluid mt-3 mb-5">
         <form class="addSpecializationForm" method="{{ isset($specialization) ? 'PUT' : 'POST' }}">
             @csrf
@@ -13,7 +13,7 @@
 
 
             <div class="form-group mt-3">
-                <label for="specialization">Doctor Name</label>
+                <label for="specialization">Enter Specialization</label>
                 <input type="text" class="form-control mt-1" id="specialization" name="specialization"
                     value="{{ $specialization->specialization ?? '' }}" required>
                 <span id="specialization_error" class="error-message"></span>
@@ -36,7 +36,8 @@
             e.preventDefault();
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             var formData = $('.addSpecializationForm').serialize();
-            var route = "{{ isset($specialization) ? route('specializations.update', $specialization->id) : route('specializations.store') }}";
+            var route =
+                "{{ isset($specialization) ? route('specializations.update', $specialization->id) : route('specializations.store') }}";
             var type = "{{ isset($specialization) ? 'PUT' : 'POST' }}";
             $.ajax({
                 url: route,
@@ -56,10 +57,14 @@
                             "closeButton": true,
                             "progressBar": true
                         }
-                        toastr.success("dsfsdafadsfads");
-                        setTimeout(function() {
-                            window.location.href = "{{ route('specializations.index') }}";
-                        }, 3000);
+                        toastr.success(response.message, '', {
+                            onHidden: function() {
+
+                                window.location.href =
+                                    "{{ route('specializations.index') }}";
+
+                            }
+                        });
                     }
                 },
                 error: function(xhr, status, error) {

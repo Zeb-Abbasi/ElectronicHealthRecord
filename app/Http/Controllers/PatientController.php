@@ -96,7 +96,7 @@ class PatientController extends Controller
     if(Auth::user()->role_id == 3){
         $patient = Patient::where('user_id', $id)->first();
     }
-    elseif(Auth::user()->role_id == 2){
+    elseif(Auth::user()->role_id == 2 || Auth::user()->role_id == 1){
         $patient = Patient::where('id', $id)->first();
     }
     
@@ -155,7 +155,8 @@ class PatientController extends Controller
      */
     public function destroy($id)
     {
-        $patient = Patient::getRecordById($id);
+        dd($id);
+        $patient = Patient::findOrFail($id);
 
         $user = $patient->user;
         // Delete the doctor

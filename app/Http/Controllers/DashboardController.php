@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Models\MedicalHistory;
 use App\Models\Patient;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PDF;
 use Dompdf\Options;
@@ -31,18 +32,18 @@ class DashboardController extends Controller
 
     public function getReports(Request $request)
     {
-        $fromDate = $request->fromDate;
-        $toDate = $request->toDate;
+        $fromDate = $request->input('fromDate');
+        $toDate = $request->input('toDate');
+        // Convert the date format to match Carbon's expected format
 
         $reports = Patient::whereBetween('created_at', [$fromDate, $toDate])->get();
-
         return view('reports', compact('reports'));
     }
 
     public function getSingleReport($patientId)
     {
         $report = Patient::findOrFail($patientId);
-        $medicalHistory = MedicalHistory::where('patient_id',$patientId)->first();
+        $medicalHistory = MedicalHistory::where('patient_id',$patientId)->get();
 
         return view('single_report', compact('report','medicalHistory'));
     }
