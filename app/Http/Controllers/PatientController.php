@@ -155,7 +155,6 @@ class PatientController extends Controller
      */
     public function destroy($id)
     {
-        dd($id);
         $patient = Patient::findOrFail($id);
 
         $user = $patient->user;

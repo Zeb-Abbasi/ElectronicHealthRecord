@@ -69,7 +69,6 @@
                 $admin_tiles = ['Manage Patients', 'Manage Doctors', 'Appointments'];
             @endphp
             @if (Auth::user()->role_id == 1)
-            <h1>I am Admin</h1>
                 @foreach ($admin_tiles as $admin_tile)
                     <div class="col-xl-3 col-md-6 mb-4">
                         <div class="card border-left-primary shadow h-100 py-2">
@@ -91,7 +90,6 @@
                 @endforeach
             @endif
             @if (Auth::user()->role_id == 2)
-            <h1>I am Doctor</h1>
                 @foreach ($doctor_tiles as $doctor_tile)
                     <div class="col-xl-3 col-md-6 mb-4">
                         <div class="card border-left-primary shadow h-100 py-2">
@@ -113,7 +111,6 @@
                 @endforeach
             @endif
             @if (Auth::user()->role_id == 3)
-            <h1>I am Patient</h1>
                 @foreach ($patient_tiles as $patient_tile)
                     <div class="col-xl-3 col-md-6 mb-4">
                         <a class="text-decoration-none" href="{{ $patient_tile['url'] }}">

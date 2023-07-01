@@ -65,6 +65,12 @@
 
                             }
                         });
+
+                        toastr.success(response.message, '');
+                        setTimeout(function() {
+                            window.location.href = "{{ route('specializations.index') }}";
+                        }, 2000);
+                        
                     }
                 },
                 error: function(xhr, status, error) {

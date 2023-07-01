@@ -205,14 +205,11 @@
                                 "closeButton": true,
                                 "progressBar": true
                             }
-                            toastr.success(response.message, '', {
-                                onHidden: function() {
-
-                                    window.location.href =
-                                        "{{ route('patients.show', $patient->id) }}";
-
-                                }
-                            });
+                            
+                            toastr.success(response.message, '');
+                            setTimeout(function() {
+                                window.location.href = "{{ route('patients.show', $patient->id) }}";
+                            }, 2000);
                         }
                     },
                     error: function(xhr) {
