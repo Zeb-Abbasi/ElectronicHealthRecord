@@ -162,7 +162,7 @@
                                 onHidden: function() {
 
                                     window.location.href =
-                                        "{{ route('dashboard') }}";
+                                        "{{ route('patients.index') }}";
 
                                 }
                             });
