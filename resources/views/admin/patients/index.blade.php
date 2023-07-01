@@ -56,7 +56,10 @@
                                         </a>
                                     </div>
                                     <div>
-                                        <form id="deleteForm" method="POST"
+                                        {{$patient->id}}
+                                    </div>
+                                    <div>
+                                        <form id="deleteModal" method="POST"
                                             action="{{ route('patients.delete', ['id' => $patient->id]) }}">
                                             @csrf
                                             @method('DELETE')

@@ -112,10 +112,14 @@
                             "closeButton": true,
                             "progressBar": true
                         }
-                        toastr.success("dsfsdafadsfads");
-                        setTimeout(function() {
-                            window.location.href = "{{ route('doctors.index') }}";
-                        }, 3000);
+                        toastr.success(response.message, '', {
+                            onHidden: function() {
+
+                                window.location.href =
+                                    "{{ route('doctors.index') }}";
+
+                            }
+                        });
                     }
                 },
                 error: function(xhr, status, error) {
