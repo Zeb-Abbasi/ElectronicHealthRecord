@@ -82,5 +82,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/update/{id}', [DoctorSpecializationController::class, 'update'])->name('.update');
         Route::delete('/delete/{id}', [DoctorSpecializationController::class, 'destroy'])->name('.delete');
     });
+
+    Route::get('/download-pdf/{patientId}', [DashboardController::class, 'downloadPDF'])->name('download.pdf');
 });
 

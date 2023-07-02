@@ -26,10 +26,7 @@
                 <tbody>
                     @foreach ($appointments as $appointment)
                         <tr>
-                            <td>@foreach(\App\Models\Doctor::whereIn('id', $appointment->pluck('doctor_id'))->get() as $doctor)
-                                {{ $doctor->user->name }}
-                            @endforeach
-                            </td>
+                            <td>{{ $appointment->doctor->user->name }}</td>
                             <td>{{ $appointment->doctor_specialization }}</td>
                             <td>{{ $appointment->consultancy_fees }}</td>
                             <td>{{ $appointment->appointment_date }} / {{ $appointment->appointment_time }}</td>

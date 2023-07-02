@@ -7,8 +7,10 @@ use App\Models\MedicalHistory;
 use App\Models\Patient;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use PDF;
 use Dompdf\Options;
+use Dompdf\Dompdf;
+use Barryvdh\DomPDF\PDF as PDF;
+use Illuminate\Support\Facades\App;
 
 class DashboardController extends Controller
 {
@@ -60,4 +62,54 @@ class DashboardController extends Controller
 
         //     return $pdf->download('report.pdf');
         // }
+
+    //     public function downloadPDF($patientId)
+    // {
+    //     // Fetch the data for the report
+    //     $report = Patient::findOrFail($patientId);
+    //     $medicalHistory = MedicalHistory::where('patient_id', $patientId)->get();
+
+    //     // Pass the data to the view
+    //     $data = [
+    //         'report' => $report,
+    //         'medicalHistory' => $medicalHistory,
+    //     ];
+
+    //     // Render the view
+    //     $pdfContent = view('single_report', $data)->render();
+
+    //     // Instantiate Dompdf
+    //     $dompdf = new Dompdf();
+    //     $dompdf->loadHtml($pdfContent);
+
+    //     // (Optional) Set paper size and orientation
+    //     $dompdf->setPaper('A4', 'portrait');
+
+    //     // Render the HTML as PDF
+    //     $dompdf->render();
+
+    //     // Generate PDF filename
+    //     $filename = 'document.pdf';
+
+    //     // Download the PDF file
+    //     return $dompdf->stream($filename);
+    // }
+
+    public function downloadPDF($patientId)
+    {
+        // Fetch the data for the report
+        $report = Patient::findOrFail($patientId);
+        $medicalHistory = MedicalHistory::where('patient_id', $patientId)->get();
+
+        // Pass the data to the view
+        $data = [
+            'report' => $report,
+            'medicalHistory' => $medicalHistory,
+        ];
+
+        $pdf = App::make('dompdf.wrapper');
+       $pdf->loadView('single_report',$data);
+       return $pdf->download('report.pdf');
+    }
+
 }

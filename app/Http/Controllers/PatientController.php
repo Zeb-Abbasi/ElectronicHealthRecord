@@ -20,18 +20,12 @@ class PatientController extends Controller
 
     public function index(Request $request)
     {
-        // $patients = Patient::
-        // when($request->q, function ($query, $q) {
-        //     return $query->where('name', 'LIKE', "%{$q}%")->orWhere('email', 'LIKE', "%{$q}%")->orWhere('contact_no', 'LIKE', "%{$q}%");
-        // })
-        // ->when($request->sortBy, function ($query, $sortBy) {
-        //     return $query->orderBy($sortBy, request('sortDesc') == 'true' ? 'asc' : 'desc');
-        // })
-        // ->when($request->page, function ($query, $page) {
-        //     return $query->offset($page - 1);
-        // })
-        // ->paginate($request->perPage);
-        $patients = Patient::all();
+        if(Auth::user()->role_id == 2) {
+            $patients = Patient::where('doctor_id',Auth::user()->doctors[0]->id)->get();
+        }
+        else {
+            $patients = Patient::all();
+        }
         return view('admin.patients.index', compact('patients'));
     }
 
@@ -99,7 +93,7 @@ class PatientController extends Controller
     elseif(Auth::user()->role_id == 2 || Auth::user()->role_id == 1){
         $patient = Patient::where('id', $id)->first();
     }
-    
+
         $doctors = Doctor::all();
         return view('admin.patients.patient', compact('patient', 'doctors'));
     }
@@ -139,7 +133,7 @@ class PatientController extends Controller
         if ($request->has('image')) {
             $patient->image = $this->uploadImage($request, 'image');
         }
-        $patient->save();   
+        $patient->save();
 
         return response()->json([
             'success' => true,

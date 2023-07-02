@@ -7,8 +7,10 @@
         <h2 class="text-success ">PATIENT</h2>
     </div>
     <div class="container-fluid mt-3 mb-5">
-
-        <h3 class="text-success fw-bold mb-5">Patient Reports</h3>
+        <h3 class="text-success fw-bold">Patient Reports</h3>
+        <div class="text-end">
+            <a href="{{ route('download.pdf', ['patientId' => $report->id]) }}" class="btn btn-success mb-2" target="_blank">Download PDF</a>
+        </div>
         <div class="row">
             <div class="col-lg-3 d-flex flex-column">
                 <div class="flex-grow-1">
@@ -71,9 +73,9 @@
                     {{-- @php
                     $medical_histories = App\Models\MedicalHistory::where('patient_id', $report->id)->where('doctor_id', Auth::user()->id )->get();
                 @endphp --}}
-                
+
                 @foreach ($medicalHistory as $medical_history)
-                <tr>                    
+                <tr>
                     <td>{{ $medical_history->blood_pressure }}</td>
                     <td>{{ $medical_history->weight }}</td>
                     <td>{{ $medical_history->blood_sugar }}</td>
@@ -82,15 +84,10 @@
                     <td>{{ $medical_history->admission_date }}</td>
                 <tr>
                 @endforeach
-                
-                    
+
+
             </tbody>
         </table>
-        <div class="text-center">
-            {{-- <a href="{{ route('generate-pdf') }}" class="btn btn-success" target="_blank">Generate PDF</a> --}}
-            <a href="#" class="btn btn-success" target="_blank">Generate PDF</a>
-
-        </div>
     </div>
 
 
@@ -101,7 +98,7 @@
     <script>
 
         // $(document).ready(function() {
-           
+
         // });
     </script>
 @endsection
