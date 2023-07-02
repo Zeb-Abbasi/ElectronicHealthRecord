@@ -50,12 +50,27 @@
     @yield('scripts')
 
     <script>
-        $(document).ready(function() {
-            $('#confirmDeleteButton').on('click', function() {
-                $('#deleteForm').submit();
-            });
-        });
-    </script>
+
+$(document).ready(function() {
+    $('.delete-button').click(function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        var form = $(this).closest('form'); // Get the closest form element
+        var formId = form.attr('id'); // Get the form ID
+
+        // Display the confirmation dialog
+        var result = confirm("Are you sure you want to delete this form?");
+
+        // If the user confirms, submit the form. Otherwise, do nothing.
+        if (result) {
+            form.submit();
+            toastr.success('Record Deleted Successfully');
+        }
+    });
+});
+    
+</script>
+
 
 </body>
 

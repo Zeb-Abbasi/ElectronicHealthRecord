@@ -120,14 +120,10 @@
                             "closeButton": true,
                             "progressBar": true
                         }
-                        toastr.success(response.message, '', {
-                            onHidden: function() {
-
-                                window.location.href =
-                                    "{{ route('patients.appointments') }}";
-
-                            }
-                        });
+                        toastr.success(response.message, '');
+                        setTimeout(function() {
+                            window.location.href = "{{ route('patients.appointments') }}";
+                        }, 2000);
                     }
                 },
                 error: function(xhr, status, error) {

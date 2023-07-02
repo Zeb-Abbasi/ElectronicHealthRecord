@@ -8,27 +8,25 @@
         <h2 class="text-success">Change Password</h2>
     </div>
     <div class="container-fluid mt-3 mb-5">
-        <form id="changePasswordForm" action="{{ route('change-password') }}"
-            method="POST" enctype="multipart/form-data">
+        <form id="changePasswordForm" action="{{ route('change-password') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="invalid-error alert alert-danger d-none"></div>
-                <div class="form-group mt-3">
-                    <label for="old_password">Old Password</label>
-                    <input type="password" class="form-control mt-1" id="old_password" name="old_password" required>
-                    <span id="old_password_error" class="error-message"></span>
-                </div>
-                <div class="form-group mt-3">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control mt-1" id="password" name="password" required>
-                    <span id="password_error" class="error-message"></span>
-                </div>
+            <div class="form-group mt-3">
+                <label for="old_password">Old Password</label>
+                <input type="password" class="form-control mt-1" id="old_password" name="old_password" required>
+                <span id="old_password_error" class="error-message"></span>
+            </div>
+            <div class="form-group mt-3">
+                <label for="password">Password</label>
+                <input type="password" class="form-control mt-1" id="password" name="password" required>
+                <span id="password_error" class="error-message"></span>
+            </div>
 
-                <div class="form-group mt-3">
-                    <label for="confirm_password">Confirm Password</label>
-                    <input type="password" class="form-control mt-1" id="confirm_password" name="confirm_password"
-                        required>
-                    <span id="confirm_password_error" class="error-message"></span>
-                </div>
+            <div class="form-group mt-3">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" class="form-control mt-1" id="confirm_password" name="confirm_password" required>
+                <span id="confirm_password_error" class="error-message"></span>
+            </div>
 
 
 
@@ -57,7 +55,7 @@
 
 
                 $.ajax({
-                    url: '{{route('change-password')}}',
+                    url: '{{ route('change-password') }}',
                     type: 'POST',
                     data: formData,
                     processData: false,
@@ -73,14 +71,10 @@
                                 "closeButton": true,
                                 "progressBar": true
                             }
-                            toastr.success(response.message, '', {
-                                onHidden: function() {
-
-                                    window.location.href =
-                                        "{{ route('dashboard') }}";
-
-                                }
-                            });
+                            toastr.success(response.message, '');
+                            setTimeout(function() {
+                                window.location.href = "{{ route('dashboard') }}";
+                            }, 2000); // 30
                         }
                     },
                     error: function(xhr) {
@@ -106,4 +100,4 @@
 @endsection
 
 
-    @endsection
+@endsection

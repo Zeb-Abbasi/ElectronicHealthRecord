@@ -97,8 +97,8 @@
             <div class="list-group list-group-flush">
 
                 <div class="d-flex">
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" data-bs-toggle="collapse"
-                        href="#patientsSubMenu" role="button" aria-expanded="false" aria-controls="patientsSubMenu">
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" 
+                       href="{{ route('patients.index') }}" >
                         <div class="d-flex justify-content-between">
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -109,22 +109,11 @@
                                 <span class="ms-2">Patients<span>
     
                             </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-chevron-right" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-                                </svg>
-                            </div>
+                           
                         </div>
                     </a>
                 </div>
-                <div class="collapse" id="patientsSubMenu">
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3 ps-5"
-                        href="{{ route('patients.create') }}">Add Patient</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3 ps-5"
-                        href="{{ route('patients.index') }}">Manage Patients</a>
-                </div>
+                
             </div>
             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{{route('doctors.appointments')}}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

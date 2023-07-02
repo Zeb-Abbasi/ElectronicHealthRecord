@@ -54,12 +54,12 @@
                                         </a>
                                     </div>
                                     <div>
-                                        <form id="deleteForm" method="POST"
+                                        
+                                        <form id="deleteForm-{{  $doctor->id }}" method="POST"
                                             action="{{ route('doctors.delete', ['id' => $doctor->id]) }}">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="button" class="p-0 border-0" data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal">
+                                            <button class="p-0 border-0 delete-button">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     fill="#FF0000" class="bi bi-trash3" viewBox="0 0 16 16">
                                                     <path

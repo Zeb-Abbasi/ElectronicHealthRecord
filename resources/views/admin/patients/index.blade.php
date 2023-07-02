@@ -7,7 +7,9 @@
         <h2 class="text-success ">PATIENTS</h2>
     </div>
     <div class="container-fluid mt-3 mb-5">
+        @if(Auth::user()->role_id == 1)
         <a href="{{ route('patients.create') }}"><button class="btn btn-success">Add Patient</button></a>
+        @endif
         <div class="table-responsive">
             <table id="example" class="table table-striped nowrap" style="width:100%">
                 <thead>
@@ -43,6 +45,8 @@
                                                     d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
                                             </svg></a>
                                     </div>
+                                   @if(Auth::user()->role_id == 1)
+
                                     <div>
                                         <a href="{{ route('patients.edit', ['id' => $patient->id]) }}"
                                             class="me-2 text-decoration-none">
@@ -56,15 +60,11 @@
                                         </a>
                                     </div>
                                     <div>
-                                        {{$patient->id}}
-                                    </div>
-                                    <div>
-                                        <form id="deleteModal" method="POST"
+                                        <form id="deleteForm-{{ $patient->id }}" method="POST"
                                             action="{{ route('patients.delete', ['id' => $patient->id]) }}">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="button" class="p-0 border-0" data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal">
+                                            <button class="p-0 border-0 delete-button">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     fill="#FF0000" class="bi bi-trash3" viewBox="0 0 16 16">
                                                     <path
@@ -72,7 +72,9 @@
                                                 </svg>
                                             </button>
                                         </form>
+
                                     </div>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
