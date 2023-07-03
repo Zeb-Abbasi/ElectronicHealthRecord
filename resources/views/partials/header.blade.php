@@ -2,7 +2,7 @@
     <div class="container">
         <!-- Logo -->
         <a class="navbar-brand" href="{{ route('homepage') }}">
-            <h1 class="text-success">EHR</h1>
+            <h1 class="text-info">EHR</h1>
         </a>
 
         <!-- Collapsible Menu -->

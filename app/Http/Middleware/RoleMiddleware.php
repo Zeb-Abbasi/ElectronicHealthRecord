@@ -15,14 +15,15 @@ class RoleMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, ...$role)
     {
-        $user = Auth::user();
-
-        if (!$user || !$user->hasRole($role)) {
-            abort(403, 'Unauthorized');
+        $user = $request->user();
+        // Check if the user has the specified role
+        if ($user && $user->hasRole($role)) {
+            return $next($request);
         }
 
-        return $next($request);
+        // Unauthorized access
+        return redirect()->route('dashboard');
     }
 }

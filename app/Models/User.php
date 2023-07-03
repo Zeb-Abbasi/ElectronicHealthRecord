@@ -54,9 +54,10 @@ class User extends Authenticatable
         public function hasRole($roles)
         {
             if (is_array($roles)) {
-                return $this->roles()->whereIn('name', $roles)->get();
+                return $this->roles()->whereIn('name', $roles)->exists();
             }
-            return $this->roles()->where('name', $roles)->get();
+
+            return $this->roles()->where('name', $roles)->exists();
         }
 
         public function doctors(): HasMany

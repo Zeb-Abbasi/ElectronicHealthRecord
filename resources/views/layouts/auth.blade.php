@@ -9,7 +9,7 @@
 
 </head>
 
-<body style="background-color: #00ab9f;">
+<body style="background-color: #17a2b8;">
 
     <div class="container py-5 ">
         <div class="row d-flex justify-content-center align-items-center ">
@@ -24,7 +24,7 @@
     </div>
 
     <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/bootstrap.bundle.min.js') }}"></script> 
+    <script type="text/javascript" src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     @yield('scripts')
 
 </body>

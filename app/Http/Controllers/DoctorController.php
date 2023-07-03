@@ -25,6 +25,7 @@ class DoctorController extends Controller
      */
     public function index(Request $request)
     {
+        dd(1);
         $doctors = Doctor::when($request->q, function ($query, $q) {
             return $query->where('name', 'LIKE', "%{$q}%")->orWhere('email', 'LIKE', "%{$q}%")->orWhere('contact_no', 'LIKE', "%{$q}%");
         })
@@ -121,7 +122,7 @@ class DoctorController extends Controller
         }
         elseif(Auth::user()->role_id == 1 || Auth::user()->role_id == 3){
             $doctor = Doctor::where('id', $id)->first();
-        }   
+        }
         $doctor_specializations = DoctorSpecialization::all();
         return view('admin.doctors.doctor', compact('doctor', 'doctor_specializations'));
     }
@@ -191,13 +192,8 @@ class DoctorController extends Controller
     public function getDoctorAppointments(){
         // $patientId = Auth::user()->id;
         $doctor = Doctor::where('user_id',Auth::user()->id)->first();
-
         $appointments = Appointment::where('doctor_id', $doctor->id)->get();
-        // if (checkGuard('admin') || checkGuard('doctor') || checkGuard('patient')) {
-            return view('appointment_history', compact('appointments'));
-        // } else {
-            return redirect('/');
-        // }
+        return view('appointment_history', compact('appointments'));
     }
 
     public function createMedicalHistory(Request $request) {

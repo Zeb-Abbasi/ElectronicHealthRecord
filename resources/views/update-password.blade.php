@@ -5,7 +5,7 @@
 @section('content')
 @section('content')
     <div class="page-heading p-4 bg-light">
-        <h2 class="text-success">Change Password</h2>
+        <h2 class="text-info">Change Password</h2>
     </div>
     <div class="container-fluid mt-3 mb-5">
         <form id="changePasswordForm" action="{{ route('change-password') }}" method="POST" enctype="multipart/form-data">

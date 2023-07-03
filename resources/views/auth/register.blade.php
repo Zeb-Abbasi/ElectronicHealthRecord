@@ -56,7 +56,7 @@
         <button class="btn btn-primary btn-lg btn-block btn-success mb-3" type="submit">Register</button>
     </form>
 
-    <p class="text-secondary">Already have an account? <a class="text-success"
+    <p class="text-secondary">Already have an account? <a class="text-info"
             href="{{ route('login') }}">Log-in</a></p>
 
     <hr class="my-4">

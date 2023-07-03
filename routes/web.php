@@ -59,7 +59,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('patients')->name('patients')->group(function () {
         Route::get('/', [PatientController::class, 'index'])->name('.index');
-        Route::get('/create', [PatientController::class, 'create'])->name('.create');
+        Route::get('/create', [PatientController::class, 'create'])->name('.create')->middleware('role:admin,doctor');
         Route::post('/store', [PatientController::class, 'store'])->name('.store');
         Route::get('/show/{id}', [PatientController::class, 'show'])->name('.show');
         Route::get('/edit/{id}', [PatientController::class, 'edit'])->name('.edit');

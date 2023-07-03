@@ -158,7 +158,6 @@
                                 "closeButton": true,
                                 "progressBar": true
                             }
-
                             toastr.success(response.message, '');
                             setTimeout(function() {
                                 window.location.href = "{{ route('patients.index') }}";

@@ -72,7 +72,7 @@
                     $medical_histories = App\Models\MedicalHistory::where('patient_id', $patient->id)->where('doctor_id', Auth::user()->id )->get();
                 @endphp --}}
                 @foreach ($medicalHistory as $medical_history)
-                <tr>                    
+                <tr>
                     <td>{{ $medical_history->blood_pressure }}</td>
                     <td>{{ $medical_history->weight }}</td>
                     <td>{{ $medical_history->blood_sugar }}</td>
@@ -81,13 +81,13 @@
                     <td>{{ $medical_history->admission_date }}</td>
                 <tr>
                 @endforeach
-                
-                    
+
+
             </tbody>
         </table>
         <div class="text-center">
             @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 3)
-            @elseif(Auth::user()->role_id == 2)   
+            @elseif(Auth::user()->role_id == 2)
             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#medicalModal">Add Medical History</button>
             @endif
         </div>
@@ -98,7 +98,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                
+
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -108,7 +108,7 @@
                 <div class="container-fluid mt-3 mb-5">
                     <form id="createMedical" action="{{ route('doctors.create-medical-history') }}"
                         method="POST" enctype="multipart/form-data">
-                        @csrf                 
+                        @csrf
                         <div class="form-group mt-3">
                             <label for="diagnosis">Diagnosis</label>
                             <input type="text" class="form-control mt-1" id="diagnosis" name="diagnosis"
@@ -132,19 +132,19 @@
                             <input type="text" class="form-control mt-1" id="weight" name="weight"
                                  required>
                             <span id="weight_error" class="error-message"></span>
-                        </div>  
+                        </div>
                         <div class="form-group mt-3">
                             <label for="temperature">Temperature</label>
                             <input type="text" class="form-control mt-1" id="temperature" name="temperature"
                                  required>
                             <span id="temperature_error" class="error-message"></span>
-                        </div> 
+                        </div>
                         <div class="form-group mt-3">
                             <label for="treatment">Treatment</label>
                             <input type="text" class="form-control mt-1" id="treatment" name="treatment"
                                  required>
                             <span id="treatment_error" class="error-message"></span>
-                        </div> 
+                        </div>
                         <div class="form-group mt-3">
                             <label for="admission_date" class="form-label">Admission Date</label>
                             <input type="date" class="form-control" id="admission_date" name="admission_date">
@@ -161,7 +161,7 @@
                                 Submit
                             </button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                            
+
                         </div>
                     </form>
                 </div>
@@ -186,7 +186,7 @@
             $('#createMedical').on('submit', function(event) {
                 event.preventDefault();
                 var formData = new FormData(this);
-      
+
 
                 $.ajax({
                     url: "{{ route('doctors.create-medical-history') }}",
@@ -205,7 +205,6 @@
                                 "closeButton": true,
                                 "progressBar": true
                             }
-                            
                             toastr.success(response.message, '');
                             setTimeout(function() {
                                 window.location.href = "{{ route('patients.show', $patient->id) }}";

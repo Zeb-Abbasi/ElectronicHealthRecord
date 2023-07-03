@@ -6,7 +6,7 @@
                 <ul class="footer-links py-4">
                     <li class="border-bottom border-secondary pt-3 pb-0">
                         <a class="text-white d-flex justify-content-between" href="{{ route('homepage') }}#about-us">
-                            <div class="text-success">About us</div>
+                            <div class="text-info">About us</div>
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-chevron-right" viewBox="0 0 16 16">
@@ -18,7 +18,7 @@
                     </li>
                     <li class="border-bottom border-secondary pt-3 pb-0">
                         <a class="text-white d-flex justify-content-between" href="{{ route('homepage') }}#our-features">
-                            <div class="text-success">Services</div>
+                            <div class="text-info">Services</div>
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
@@ -30,7 +30,7 @@
                     </li>
                     <li class="border-bottom border-secondary pt-3 pb-0">
                         <a class="text-white d-flex justify-content-between" href="{{ route('homepage') }}#logins">
-                            <div class="text-success">Logins</div>
+                            <div class="text-info">Logins</div>
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
@@ -42,7 +42,7 @@
                     </li>
                     <li class="border-bottom border-secondary pt-3 pb-0">
                         <a class="text-white d-flex justify-content-between" href="{{ route('homepage') }}#gallery">
-                            <div class="text-success">Gallery</div>
+                            <div class="text-info">Gallery</div>
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">

@@ -31,7 +31,7 @@
     </form>
 
     <div class="mt-3">
-        <a class="text-success" href="{{ route('forgot-password') }}">Forgot Password</a>
+        <a class="text-info" href="{{ route('forgot-password') }}">Forgot Password</a>
     </div>
     <hr class="my-4">
     <div class="copyright text-secondary text-center">

@@ -32,7 +32,6 @@
 
         </div>
     </div>
-    @include('partials.dashboard.popup')
 
     <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -68,7 +67,7 @@ $(document).ready(function() {
         }
     });
 });
-    
+
 </script>
 
 

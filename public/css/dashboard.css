@@ -1,8 +1,8 @@
 /* universasl */
 .btn-success{
-  background-color: #00ab9f !important;
+  background-color: #17a2b8 !important;
   color: white !important;
-  border-color: #00ab9f !important;
+  border-color: #17a2b8 !important;
 }
 .btn-success:hover{
   background-color: #00827a !important;
@@ -10,7 +10,7 @@
 }
 
 .text-success{
-  color: #00ab9f !important;
+  color: #17a2b8 !important;
 }
 /* sidebar */
 #wrapper {
@@ -68,14 +68,14 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
 
 /* //dashboard pagination */
 .page-item.active .page-link{
-  background-color: #00ab9f;
-    border-color: #00ab9f;
+  background-color: #17a2b8;
+    border-color: #17a2b8;
 }
 .page-link{
-  color: #00ab9f;
+  color: #17a2b8;
 }
 .page-link:hover{
-  color: #00ab9f;
+  color: #17a2b8;
 }
 /* AUTH */
 .error-message{

@@ -4,12 +4,12 @@ section {
   margin-bottom: 120px;
 }
 .text-success{
-  color: #00ab9f !important;
+  color: #17a2b8 !important;
 }
 .btn-success{
-  background-color: #00ab9f !important;
+  background-color: #17a2b8 !important;
   color: white !important;
-  border-color: #00ab9f !important;
+  border-color: #17a2b8 !important;
 }
 .btn-success:hover{
   background-color: #00827a !important;
@@ -21,7 +21,7 @@ section {
   font-weight: 600;
 }
 .navbar-nav a:hover{
-  color: #00ab9f !important;
+  color: #17a2b8 !important;
 }
 
 /* banner */
@@ -46,10 +46,10 @@ section {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(16, 36, 90, 0.5); 
+  background-color: rgba(16, 36, 90, 0.5);
 }
 .carousel-indicators .active{
-  background-color:#00ab9f;
+  background-color:#17a2b8;
 }
 
 /* login-cards */
@@ -59,7 +59,7 @@ section {
 
 .card-img-top {
   object-fit: cover;
-  height: 200px; 
+  height: 200px;
 }
 
 /* abou-us */
@@ -102,12 +102,12 @@ section {
 }
 
 .works .filtering span:hover {
-  background: #00ab9f;
+  background: #17a2b8;
   color: #fff;
 }
 
 .works .filtering .active {
-  background: #00ab9f;
+  background: #17a2b8;
   box-shadow: 0px 8px 30px -5px rgba(0, 0, 0, 0.2);
   color: #fff;
 }
@@ -238,7 +238,7 @@ section {
 }
 
 .copyright-section{
-  background-color: #00ab9f;
+  background-color: #17a2b8;
 }
 
 
@@ -254,26 +254,26 @@ section {
 
 @media (min-width: 320px) {
   .carousel-item .img-container {
-    padding-bottom: 140%; 
+    padding-bottom: 140%;
   }
 }
 
 @media (min-width: 576px) {
   .carousel-item .img-container {
-    padding-bottom: 70%; 
+    padding-bottom: 70%;
   }
 
 }
 
 @media (min-width: 768px) {
   .carousel-item .img-container {
-    padding-bottom: 60%; 
+    padding-bottom: 60%;
   }
 }
 
 @media (min-width: 992px) {
   .carousel-item .img-container {
-    padding-bottom: 40%; 
+    padding-bottom: 40%;
   }
 }
 

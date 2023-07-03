@@ -15,11 +15,12 @@
                 <thead>
                     <tr>
                         <th>Doctor Name</th>
+                        <th>Patient Name</th>
                         <th>Specialization</th>
                         <th>Consultancy Fee</th>
                         <th>Appointment Date / Time</th>
                         <th>Appointment Creation Date</th>
-                        <th>Current Status</th>
+                        <th></th>
                         {{-- <th>Actions</th> --}}
                     </tr>
                 </thead>
@@ -27,6 +28,7 @@
                     @foreach ($appointments as $appointment)
                         <tr>
                             <td>{{ $appointment->doctor->user->name }}</td>
+                            <td>{{ $appointment->patient->user->name }}</td>
                             <td>{{ $appointment->doctor_specialization }}</td>
                             <td>{{ $appointment->consultancy_fees }}</td>
                             <td>{{ $appointment->appointment_date }} / {{ $appointment->appointment_time }}</td>
