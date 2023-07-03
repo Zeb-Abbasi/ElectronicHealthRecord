@@ -51,11 +51,11 @@ Route::middleware(['auth'])->group(function () {
 
      //Patients Routes
     Route::prefix('patients')->name('patients')->group(function () {
-        Route::get('/', [PatientController::class, 'index'])->name('.index');
+        Route::get('/', [PatientController::class, 'index'])->name('.index')->middleware('role:admin,doctor');
         Route::get('/create', [PatientController::class, 'create'])->name('.create')->middleware('role:admin,doctor');
         Route::post('/store', [PatientController::class, 'store'])->name('.store')->middleware('role:admin,doctor');
         Route::get('/show/{id}', [PatientController::class, 'show'])->name('.show');
-        Route::get('/edit/{id}', [PatientController::class, 'edit'])->name('.edit')->middleware('role:admin');
+        Route::get('/edit/{id}', [PatientController::class, 'edit'])->name('.edit')->middleware('role:admin,patient');
         Route::put('/update/{id}', [PatientController::class, 'update'])->name('.update')->middleware('role:admin,patient');
         Route::delete('/delete/{id}', [PatientController::class, 'destroy'])->name('.delete')->middleware('role:admin');
         Route::get('/create-appointment', [PatientController::class, 'bookAppointment'])->name('.book-appointment')->middleware('role:patient');

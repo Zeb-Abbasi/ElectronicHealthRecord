@@ -93,20 +93,20 @@
         @endforeach
             @endif
             @if (Auth::user()->role_id == 2)
-                @foreach ($patient_tiles as $patient_tile)
+                @foreach ($doctor_tiles as $doctor_tile)
                     <div class="col-xl-3 col-md-6 mb-4">
-                        <a class="text-decoration-none" href="{{ $patient_tile['url'] }}">
+                        <a class="text-decoration-none" href="{{ $doctor_tile['url'] }}">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs fw-bold text-primary text-uppercase mb-1">
-                                                {{ $patient_tile['description'] }}
+                                                {{ $doctor_tile['description'] }}
                                             </div>
-                                            <div class="h5 mb-0 fw-bold text-gray-800">{{ $patient_tile['title']}}</div>
+                                            <div class="h5 mb-0 fw-bold text-gray-800">{{ $doctor_tile['title']}}</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="{{ $patient_tile['icon'] }}"></i>
+                                            <i class="{{ $doctor_tile['icon'] }}"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -140,11 +140,5 @@
                     </div>
                 @endforeach
             @endif
-
-
-
-
         </div>
-
-
-    @endsection
+@endsection
