@@ -16,7 +16,6 @@ class Patient extends Authenticatable
         'address',
         'gender',
         'age',
-        'med_his',
         'image',
         'role_id',
     ];

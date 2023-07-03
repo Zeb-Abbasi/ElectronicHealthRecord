@@ -53,10 +53,25 @@
                 <span id="address_error" class="error-message"></span>
             </div>
 
-            <div class="form-group mt-3">
+            {{-- <div class="form-group mt-3">
                 <label for="gender">Gender</label>
                 <input type="text" class="form-control mt-1" id="gender" name="gender"
                     value="{{ $patient->gender ?? '' }}" required>
+                <span id="gender_error" class="error-message"></span>
+            </div> --}}
+
+            <div class="form-group mt-3">
+                <label for="gender">Gender</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="gender_male" name="gender" value="male"
+                        {{ (isset($patient) && $patient->gender == 'male') ? 'checked' : '' }} required>
+                    <label class="form-check-label" for="gender_male">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="gender_female" name="gender" value="female"
+                        {{ (isset($patient) && $patient->gender == 'female') ? 'checked' : '' }} required>
+                    <label class="form-check-label" for="gender_female">Female</label>
+                </div>
                 <span id="gender_error" class="error-message"></span>
             </div>
 
@@ -67,12 +82,6 @@
                 <span id="age_error" class="error-message"></span>
             </div>
 
-            <div class="form-group mt-3">
-                <label for="age">Medical History</label>
-                <input type="text" class="form-control mt-1" id="med_his" name="med_his"
-                    value="{{ $patient->age ?? '' }}" required>
-                <span id="med_his_error" class="error-message"></span>
-            </div>
 
             <div class="my-3">
                 <label for="image" class="form-label">Select an image:</label>

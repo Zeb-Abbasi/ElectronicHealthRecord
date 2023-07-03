@@ -27,9 +27,6 @@ Route::get('/login', [AuthController::class, 'loginForm'])->name('loginForm');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('forgot-password');
-Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword']);
-
 Route::middleware(['auth'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('change-password-view', [AuthController::class, 'viewChangePassword'])->name('change-password-view');
@@ -56,10 +53,10 @@ Route::middleware(['auth'])->group(function () {
     });
 
      //Patients Routes
-
+    //  ->middleware('role:admin');
     Route::prefix('patients')->name('patients')->group(function () {
         Route::get('/', [PatientController::class, 'index'])->name('.index');
-        Route::get('/create', [PatientController::class, 'create'])->name('.create')->middleware('role:admin,doctor');
+        Route::get('/create', [PatientController::class, 'create'])->name('.create');
         Route::post('/store', [PatientController::class, 'store'])->name('.store');
         Route::get('/show/{id}', [PatientController::class, 'show'])->name('.show');
         Route::get('/edit/{id}', [PatientController::class, 'edit'])->name('.edit');
@@ -85,4 +82,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/download-pdf/{patientId}', [DashboardController::class, 'downloadPDF'])->name('download.pdf');
 });
+
+// Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('forgot-password');
+// Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword']);
 

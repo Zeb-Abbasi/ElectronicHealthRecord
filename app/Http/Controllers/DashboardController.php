@@ -31,7 +31,10 @@ class DashboardController extends Controller
         $toDate = $request->input('toDate');
         // Convert the date format to match Carbon's expected format
 
-        $reports = Patient::whereBetween('created_at', [$fromDate, $toDate])->get();
+        $reports = Patient::whereDate('created_at', '>=', $fromDate)
+        ->whereDate('created_at', '<=', $toDate)
+        ->get();
+
         return view('reports', compact('reports'));
     }
 
