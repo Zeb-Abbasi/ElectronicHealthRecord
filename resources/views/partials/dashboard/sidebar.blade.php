@@ -88,7 +88,8 @@
                     d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z" />
                 <path
                     d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
-            </svg><Span class="ms-2">Reports</Span></a>
+            </svg><Span class="ms-2">Reports</Span>
+        </a>
 
         {{-- For Doctor --}}
 
@@ -123,6 +124,8 @@
                 <div class="collapse" id="patientsSubMenu">
                     <a class="list-group-item list-group-item-action list-group-item-light p-3 ps-5"
                         href="{{ route('patients.create') }}">Add Patient</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 ps-5"
+                    href="{{ route('patients.index') }}">Manage Patients</a>
                 </div>
             </div>
             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{{route('doctors.appointments')}}">
@@ -134,6 +137,15 @@
                         d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
                 </svg>
                 <span class="ms-2">Appointment History</span>
+            </a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{{ route('report-form') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                    <path
+                        d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z" />
+                    <path
+                        d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
+                </svg><Span class="ms-2">Reports</Span>
             </a>
             {{-- @endif --}}
 
@@ -164,6 +176,15 @@
                     d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
             </svg>
             <span>Appointment History</span>
+        </a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{{ route('report-form') }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                <path
+                    d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z" />
+                <path
+                    d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
+            </svg><Span class="ms-2">Reports</Span>
         </a>
     </div>
     @endif

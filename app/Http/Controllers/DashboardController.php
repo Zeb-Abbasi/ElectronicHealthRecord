@@ -8,6 +8,7 @@ use App\Models\Patient;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -31,9 +32,19 @@ class DashboardController extends Controller
         $toDate = $request->input('toDate');
         // Convert the date format to match Carbon's expected format
 
-        $reports = Patient::whereDate('created_at', '>=', $fromDate)
-        ->whereDate('created_at', '<=', $toDate)
-        ->get();
+        if(Auth::user()->role_id == 1) {
+            $reports = Patient::whereDate('created_at', '>=', $fromDate)
+            ->whereDate('created_at', '<=', $toDate)
+            ->get();
+        } else if(Auth::user()->role_id == 2) {
+            $reports = Patient::where('doctor_id',Auth::user()->doctors->pluck('id')[0])->whereDate('created_at', '>=', $fromDate)
+            ->whereDate('created_at', '<=', $toDate)
+            ->get();
+        } else if(Auth::user()->role_id == 3) {
+            $reports = Patient::where('id',Auth::user()->patients->pluck('id')[0])->whereDate('created_at', '>=', $fromDate)
+            ->whereDate('created_at', '<=', $toDate)
+            ->get();
+        }
 
         return view('reports', compact('reports'));
     }

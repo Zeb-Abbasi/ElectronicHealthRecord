@@ -25,20 +25,8 @@ class DoctorController extends Controller
      */
     public function index(Request $request)
     {
-        dd(1);
-        $doctors = Doctor::when($request->q, function ($query, $q) {
-            return $query->where('name', 'LIKE', "%{$q}%")->orWhere('email', 'LIKE', "%{$q}%")->orWhere('contact_no', 'LIKE', "%{$q}%");
-        })
-            ->when($request->sortBy, function ($query, $sortBy) {
-                return $query->orderBy($sortBy, request('sortDesc') == 'true' ? 'asc' : 'desc');
-            })
-            ->when($request->page, function ($query, $page) {
-                return $query->offset($page - 1);
-            })
-            ->paginate($request->perPage);
-        if ($doctors) {
-            return view('admin.doctors.index', compact('doctors'));
-        }
+        $doctors = Doctor::all();
+        return view('admin.doctors.index', compact('doctors'));
     }
 
     /**

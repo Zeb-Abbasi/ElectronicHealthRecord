@@ -31,46 +31,40 @@ Route::middleware(['auth'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('change-password-view', [AuthController::class, 'viewChangePassword'])->name('change-password-view');
     Route::post('change-password', [AuthController::class, 'changePassword'])->name('change-password');
-    Route::get('profile', [AuthController::class, 'getProfile']);
-    Route::get('/admin/appointments', [DashboardController::class, 'getAppointments'])->name('admin-appointments');
+    Route::get('/admin/appointments', [DashboardController::class, 'getAppointments'])->name('admin-appointments')->middleware('role:admin');
     Route::get('/report-form', [DashboardController::class, 'showReportForm'])->name('report-form');
     Route::get('/all-reports', [DashboardController::class, 'getReports'])->name('reports');
     Route::get('/report/{patientId}', [DashboardController::class, 'getSingleReport'])->name('report');
 
     //Doctors Routes
     Route::prefix('doctors')->name('doctors')->group(function () {
-        Route::get('/', [DoctorController::class, 'index'])->name('.index');
-        Route::get('/create', [DoctorController::class, 'create'])->name('.create');
-        Route::post('/store', [DoctorController::class, 'store'])->name('.store');
-        Route::get('/show/{id}', [DoctorController::class, 'show'])->name('.show');
-        Route::get('/edit/{id}', [DoctorController::class, 'edit'])->name('.edit');
-        Route::put('/update/{id}', [DoctorController::class, 'update'])->name('.update');
-        Route::delete('/delete/{id}', [DoctorController::class, 'destroy'])->name('.delete');
-        Route::get('/appointments', [DoctorController::class, 'getDoctorAppointments'])->name('.appointments');
-        Route::post('/create-medical-history', [DoctorController::class, 'createMedicalHistory'])->name('.create-medical-history');
-        // Route::get('/reports-form', [DoctorController::class, 'showDoctorReportsForm'])->name('.reports-form');
-        // Route::get('/reports', [DoctorController::class, 'getDoctorReports'])->name('.reports');
+        Route::get('/', [DoctorController::class, 'index'])->name('.index')->middleware('role:admin');
+        Route::get('/create', [DoctorController::class, 'create'])->name('.create')->middleware('role:admin');
+        Route::post('/store', [DoctorController::class, 'store'])->name('.store')->middleware('role:admin,doctor');
+        Route::get('/show/{id}', [DoctorController::class, 'show'])->name('.show')->middleware('role:admin,doctor');
+        Route::get('/edit/{id}', [DoctorController::class, 'edit'])->name('.edit')->middleware('role:admin,doctor');
+        Route::put('/update/{id}', [DoctorController::class, 'update'])->name('.update')->middleware('role:admin,doctor');
+        Route::delete('/delete/{id}', [DoctorController::class, 'destroy'])->name('.delete')->middleware('role:admin');
+        Route::get('/appointments', [DoctorController::class, 'getDoctorAppointments'])->name('.appointments')->middleware('role:doctor');
+        Route::post('/create-medical-history', [DoctorController::class, 'createMedicalHistory'])->name('.create-medical-history')->middleware('role:doctor');
     });
 
      //Patients Routes
-    //  ->middleware('role:admin');
     Route::prefix('patients')->name('patients')->group(function () {
         Route::get('/', [PatientController::class, 'index'])->name('.index');
-        Route::get('/create', [PatientController::class, 'create'])->name('.create');
-        Route::post('/store', [PatientController::class, 'store'])->name('.store');
+        Route::get('/create', [PatientController::class, 'create'])->name('.create')->middleware('role:admin,doctor');
+        Route::post('/store', [PatientController::class, 'store'])->name('.store')->middleware('role:admin,doctor');
         Route::get('/show/{id}', [PatientController::class, 'show'])->name('.show');
-        Route::get('/edit/{id}', [PatientController::class, 'edit'])->name('.edit');
-        Route::put('/update/{id}', [PatientController::class, 'update'])->name('.update');
-        Route::delete('/delete/{id}', [PatientController::class, 'destroy'])->name('.delete');
-        Route::get('/create-appointment', [PatientController::class, 'bookAppointment'])->name('.book-appointment');
-        Route::post('/store-appointment', [PatientController::class, 'storeAppointment'])->name('.store-appointment');
-        Route::get('/appointments', [PatientController::class, 'getPatientAppointments'])->name('.appointments');
-        // Route::get('/reports-form', [PatientController::class, 'showPatientReportsForm'])->name('.reports-form');
-        // Route::get('/reports', [PatientController::class, 'getPatientReports'])->name('.reports');
+        Route::get('/edit/{id}', [PatientController::class, 'edit'])->name('.edit')->middleware('role:admin');
+        Route::put('/update/{id}', [PatientController::class, 'update'])->name('.update')->middleware('role:admin,patient');
+        Route::delete('/delete/{id}', [PatientController::class, 'destroy'])->name('.delete')->middleware('role:admin');
+        Route::get('/create-appointment', [PatientController::class, 'bookAppointment'])->name('.book-appointment')->middleware('role:patient');
+        Route::post('/store-appointment', [PatientController::class, 'storeAppointment'])->name('.store-appointment')->middleware('role:patient');
+        Route::get('/appointments', [PatientController::class, 'getPatientAppointments'])->name('.appointments')->middleware('role:patient');
     });
     //  Doctor Specialization Routes
 
-    Route::prefix('specializations')->name('specializations')->group(function () {
+    Route::prefix('specializations')->name('specializations')->middleware('admin')->group(function () {
         Route::get('/', [DoctorSpecializationController::class, 'index'])->name('.index');
         Route::get('/create', [DoctorSpecializationController::class, 'create'])->name('.create');
         Route::post('/store', [DoctorSpecializationController::class, 'store'])->name('.store');
