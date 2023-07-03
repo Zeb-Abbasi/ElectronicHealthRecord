@@ -12,8 +12,8 @@
                 </thead>
                 <tbody style="border: 1px solid black; padding:5px">
                     <tr >
-                        <td rowspan="8" style="padding:5px;"> <img src="{{ public_path($report->image) }}" alt=""
-                            style="width: 200px; height: 200px;" ></td>
+                        <td rowspan="8" style="padding-left:60px;"> <img src="{{ public_path($report->image) }}" alt=""
+                            style="width: 170px; height: 170px;" ></td>
                         <th style="border: 1px solid black; padding:5px; color: #6c757d;">Patient Name</th>
                         <td style="border: 1px solid black; padding:5px">{{ $report->user->name }}</td>
                     </tr>
@@ -24,7 +24,7 @@
                     <tr >
                         <th style="border: 1px solid black; padding:5px; color: #6c757d;">Patient Gender</th>
                         <td style="border: 1px solid black; padding:5px">{{ $report->gender }}</td>
-                        
+
                     </tr>
                     <tr >
                         <th style="border: 1px solid black; padding:5px; color: #6c757d;">Patient Email</th>
@@ -46,7 +46,7 @@
             </table>
         </div>
     </div>
-    
+
 </div>
 
 <table style="width: 100%; border-collapse: collapse; margin-top: 40px;">
