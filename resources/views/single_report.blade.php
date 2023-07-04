@@ -19,7 +19,7 @@
             </div>
             <div class="col-lg-9">
                 <div class="table-responsive mt-3 mt-lg-0">
-                    <table class="table table-bordered mb-0" style="width: 100%">
+                    <table class="table table-bordered mt-2 mb-0" style="width: 100%">
                         <thead>
                             <tr>
                                 <th colspan="4" class="text-center fs-5 text-secondary">Patient Info</th>

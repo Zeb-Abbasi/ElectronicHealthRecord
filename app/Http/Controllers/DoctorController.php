@@ -70,6 +70,7 @@ class DoctorController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role_id' => 2, // Assuming role ID 2 represents doctors
+            'flag' => 'doctor', // Assuming role ID 2 represents doctors
         ]);
 
         $doctor = new Doctor($request->all());
@@ -143,6 +144,7 @@ class DoctorController extends Controller
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->role_id = 2;
+        $user->flag = 'doctor';
         $user->save();
 
         $doctor->fees = $request->input('fees');

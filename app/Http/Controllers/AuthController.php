@@ -26,6 +26,7 @@ class AuthController extends Controller
          $validator = Validator::make($request->all(), [
              'email' => 'required|email',
              'password' => 'required',
+             'param' => 'required|in:admin,doctor,patient',
          ]);
 
          if ($validator->fails()) {
@@ -36,6 +37,8 @@ class AuthController extends Controller
          }
 
          $credentials = $request->only('email', 'password');
+         $param = $request->input('param');
+         $credentials['flag'] = $param;
 
         if (Auth::attempt($credentials)) {
             return redirect()->route('dashboard')->with('success', 'Login successful.');

@@ -4,7 +4,16 @@
 
 @section('content')
 
-    <h3 class="mb-5 text-success">EHR | Login</h3>
+    {{-- <h3 class="mb-5 text-success">EHR | Login</h3> --}}
+    <h3 class="mb-5 text-success">EHR |
+        @if(request()->input('param') === 'admin')
+            Admin Login
+        @elseif(request()->input('param') === 'doctor')
+            Doctor Login
+        @elseif(request()->input('param') === 'patient')
+        Patient Login
+        @endif
+    </h3>
     <form class="loginForm" method="POST">
         @csrf
         <div class="invalid-error alert alert-danger d-none">
@@ -30,7 +39,7 @@
             </label>
         </div>
 
-        <button id="login" class="btn btn-primary btn-lg btn-block btn-success" type="submit">Login</button>
+        <button id="login" class="btn btn-primary btn-lg btn-block btn-success" type="submit" data-param="{{ request()->input('param') }}">Login</button>
 
     </form>
     <hr class="my-4">
@@ -47,6 +56,9 @@
             e.preventDefault();
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             var formData = $('.loginForm').serialize();
+            var param = $(this).data('param'); // Get the parameter value from the login button
+            // Include the parameter in the AJAX data
+            formData += '&param=' + param;
             $.ajax({
                 url: "{{ route('login') }}",
                 type: 'POST',

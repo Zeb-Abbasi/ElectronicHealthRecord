@@ -58,6 +58,7 @@ class PatientController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role_id' => 3, // Assuming role ID 2 represents doctors
+            'flag' => 'patient', // Assuming role ID 2 represents doctors
         ]);
 
         $patient = new Patient($request->all());
@@ -117,6 +118,7 @@ class PatientController extends Controller
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->role_id = 3;
+        $user->flag = 'patient';
         $user->save();
 
 
