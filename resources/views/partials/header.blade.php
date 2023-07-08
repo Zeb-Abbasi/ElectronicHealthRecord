@@ -39,7 +39,7 @@
 
         <!-- Button -->
         <div class="d-flex align-items-center d-none d-md-block">
-            <a href="{{ route('loginForm') }}" class="btn btn-success">Book an Appointment</a>
+            <a href="{{ route('loginForm', ['param' => 'patient']) }}" class="btn btn-success">Book an Appointment</a>
         </div>
     </div>
 </header>
